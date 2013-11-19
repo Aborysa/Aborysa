@@ -1,8 +1,8 @@
 package youtube.aborysa.game.Math.geometrics;
 
 public class Circle {
-	float radius;
-	Point2f pos = null;
+	private float radius;
+	private Point2f pos = null;
 	public Circle(float radius,Point2f pos){
 		this.radius = radius;
 		if (pos == null){

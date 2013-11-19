@@ -75,7 +75,7 @@ public class Screen{
 				drawImgStr(i.x,i.y,i.width,i.height,i.tex);
 			}
 			setColor(1f,0f,0f);
-			Screen.drawCircle(200, 200, 32, 16,4);
+			Screen.drawCircle(200, 200, 128, 16,4);
 			Screen.drawLine(200,200,232,200,4);
 			setColor(1f,1f,1f);
 			gCompList.clear();

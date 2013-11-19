@@ -7,7 +7,7 @@ import youtube.aborysa.game.Math.geometrics.*;
 public class Main {
 	
 	public static void main(String[] args){	
-		/*Screen.init(1000,1000,"TEST");
+		Screen.init(640,480,"TEST");
 		Texture tex = Screen.loadImage("PNG", "img/Test.png");
 		Texture t = Screen.loadImage("PNG","img/Potet.png");
 		Texture t2 = Screen.loadImage("PNG", "img/Potet_2.png");
@@ -28,12 +28,12 @@ public class Main {
 		}
 		System.out.println("Terminating");
 		Screen.cleanUp();
-		*/
-		Point2f p1 = new Point2f(-1,-1,false);
-		Point2f p2 = new Point2f(1,2,false);
+		
+		Point2f p1 = new Point2f(1,1,false);
+		Point2f p2 = new Point2f(3,-1,false);
 		Vector2f a = new Vector2f(2,2,p1);
-		Vector2f b = new Vector2f(-2,-7,p2);
-		Point2f p3 = Vector2f.getIntersection(a, b);
+		Vector2f b = a;
+		Point2f p3 = geo.getIntersection(a, b);
 		if (p3 == null){
 			System.out.println("Lines are not intersecting!");
 		}else{
