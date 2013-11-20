@@ -54,6 +54,8 @@ public class Vector2f {
 	}
 	public static float getAngel(Vector2f vec1, Vector2f vec2){
 		float rad = 0;
+		System.out.println(getScalar(vec1,vec2));
+		//TODO fix the error, replace the next line
 		rad = (float) Math.acos(getScalar(vec1,vec2)/(vec1.getLength()*vec2.getLength()));
 		return rad;
 	}

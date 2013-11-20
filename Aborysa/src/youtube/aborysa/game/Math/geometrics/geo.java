@@ -34,6 +34,8 @@ public class geo {
 		float x2 = vec2.getX() + pos2.getX();
 		float y1 = vec1.getY() + pos1.getY();
 		float y2 = vec2.getY() + pos2.getY(); 
+		System.out.println(vec1.getAngel() + ", " + vec2.getAngel());
+		System.out.println(Vector2f.getAngel(vec1, vec2));
 		if (Vector2f.getAngel(vec1,vec2) == 0){
 			System.out.println("Same direction");
 			Vector2f vecA = new Vector2f(pos1.getX()-x2,pos1.getY()-y2,null);
