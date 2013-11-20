@@ -5,11 +5,26 @@ public class geo {
 	//Comment
 	public static Point2f[] getIntersection(Circle c1, Circle c2){
 		
-		
 		Point2f[] crossings = new Point2f[2];
+		Point2f pos1 = c1.getPos();
+		Point2f pos2 = c2.getPos();
+		float dX = Math.abs(pos1.getX() - pos2.getX());
+		float dY = Math.abs(pos1.getY() - pos2.getY());
+		float dist =(float)Math.sqrt(Math.pow(dX,2) + Math.pow(dY, 2));
+		if ((dist) < (c1.getRadius() + c2.getRadius())){
+			float x1 = 0;
+			float y1 = 0;
+			float x2 = 0;
+			float y2 = 0;
+			//Insert intersection algorithm here
+			
+			
+			
+		}
 		
 		
 		return null;
+		
 	}
 	public static Point2f getIntersection(Vector2f vec1, Vector2f vec2){
 		Point2f pos1 = vec1.getPos();
@@ -19,6 +34,8 @@ public class geo {
 		float x2 = vec2.getX() + pos2.getX();
 		float y1 = vec1.getY() + pos1.getY();
 		float y2 = vec2.getY() + pos2.getY(); 
+		System.out.println(vec1.getAngel() + ", " + vec2.getAngel());
+		System.out.println(Vector2f.getAngel(vec1, vec2));
 		if (Vector2f.getAngel(vec1,vec2) == 0){
 			System.out.println("Same direction");
 			Vector2f vecA = new Vector2f(pos1.getX()-x2,pos1.getY()-y2,null);
