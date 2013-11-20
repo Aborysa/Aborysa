@@ -25,7 +25,7 @@ public class Screen{
 	private static Color color = new Color(1, 1, 1, 1);
 	private static Color backGroundColor = new Color(1,1,1,1);
 	private static Texture tex, lastTex, colorTexture;
-	private static ArrayList<GraphicsComp> gCompList = new ArrayList<GraphicsComp>();
+	private static ArrayList<Graphics> gCompList = new ArrayList<Graphics>();
 	public static boolean isRunning = false;
 	
 	public static void init(int width, int height, String title){
@@ -71,8 +71,8 @@ public class Screen{
 			isRunning = !(Display.isCloseRequested());
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			for(GraphicsComp i : gCompList) {
-				drawImgStr(i.x,i.y,i.width,i.height,i.tex);
+			for(Graphics i : gCompList) {
+				i.draw();
 			}
 			setColor(1f,0f,0f);
 			Screen.drawCircle(200, 200, 128, 16,4);
@@ -122,25 +122,25 @@ public class Screen{
 			glVertex2f(width+x,height+y);
 		glEnd();
 	}
-	private static void drawImagePart(int x, int y, int xStart, int yStart, int xWidth, int yHeight,Texture tex){
+	static void drawImagePart(int x, int y, int xStart, int yStart, int xWidth, int yHeight,Texture tex){
 		drawImagePartStr(x, y, xWidth, yHeight,xStart, yStart,xWidth, yHeight, tex);
 	}
 	public static void drawImage(int x, int y, Texture tex){
 		drawImageStr(x,y,tex.getImageWidth(),tex.getImageHeight(),tex);
 	}
-	private static void drawPolygon(float[] x, float[] y){
+	static void drawPolygon(float[] x, float[] y){
 		glBegin(GL_QUADS);
 		for (int i=0; i < y.length;i++){
 			glVertex2f(x[i],y[i]);
 		}
 		glEnd();
 	}
-	private static void drawImgStr(int x, int y, int width, int height, Texture tex){
+	static void drawImgStr(int x, int y, int width, int height, Texture tex){
 		drawImagePartStr(x, y, width, height,0, 0,tex.getImageWidth(), tex.getImageHeight(), tex);
 	}
 	
 	public static void drawImageStr(int x,int y, int width , int height, Texture tex){
-		gCompList.add(new GraphicsComp(x,y,width,height,tex));
+		//gCompList.add(new GraphicsComp(x,y,width,height,tex));
 	}
 	public static void setColor(float r, float g, float b){
 		color.r = r;
@@ -151,9 +151,6 @@ public class Screen{
 	public static void setAlpha(float a){
 		color.a = a;
 		glColor4f(color.r, color.g, color.b, a);
-	}
-	public static float getAlpha(){
-		return color.a;
 	}
 	public static Color getColor(){
 		return color;
