@@ -27,7 +27,7 @@ public class Main {
 			Screen.run();
 		}
 		System.out.println("Terminating");
-		Screen.cleanUp();
+		Screen.cleanUp();s
 		*/
 		Point2f p1 = new Point2f(1,1,false);
 		Point2f p2 = new Point2f(3,-1,false);
