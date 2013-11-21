@@ -5,7 +5,7 @@ import org.newdawn.slick.Color;
 import youtube.aborysa.game.Math.geometrics.*;
 public interface Graphics {
 	void draw();
-	float setDepth(float d);
+	void setDepth(float d);
 	float getDepth();
 	Point2f getPosition();
 	void setPosition(float x, float y);
