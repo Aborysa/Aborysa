@@ -10,13 +10,18 @@ public class RenderTexture implements Graphics{
 	float depth;
 	Texture tex;
 	
-	public RenderTexture(Texture tex){
+	public RenderTexture(float x, float y,Texture tex){
 		this.tex = tex;
+		pos = new Point2f(x,y,false);
 	}
 
 	@Override
 	public void draw() {
-		//Make render method
+		//System.out.println("Go fuck your self");
+		Screen.drawImage(pos.getX(), pos.getY(), tex);
+	}
+	public Texture getTex(){
+		return tex;
 	}
 
 	@Override

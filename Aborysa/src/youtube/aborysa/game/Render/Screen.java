@@ -25,9 +25,13 @@ public class Screen{
 	private static Color color = new Color(1, 1, 1, 1);
 	private static Color backGroundColor = new Color(1,1,1,1);
 	private static Texture tex, lastTex, colorTexture;
+	
 	private static ArrayList<Graphics> gCompList = new ArrayList<Graphics>();
 	public static boolean isRunning = false;
 	
+	synchronized static ArrayList<Graphics> getRenderList(){
+		return gCompList;
+	}
 	public static void init(int width, int height, String title){
 		isRunning = true;
 		try {
@@ -57,7 +61,7 @@ public class Screen{
 		glLoadIdentity();
 	}
 	private static void pastInit(){
-		tex = loadImage("PNG","img/Test.png");	
+		tex = loadImage("PNG", "img/Potet_2.png");	
 		colorTexture = loadImage("PNG","img/Cimg.png");
 		setColor(1,1,1);
 		setAlpha(1);
@@ -70,19 +74,30 @@ public class Screen{
 		//glColor3f(0.8f,0.25f,0.1f);
 			isRunning = !(Display.isCloseRequested());
 			glClear(GL_COLOR_BUFFER_BIT);
-			
-			for(Graphics i : gCompList) {
+			//ArrayList<Graphics> rList = getRenderList();
+			//rList.add(new RenderTexture(0,0,tex));
+			//System.out.println(rList.size());
+			/*for(int i=0; i < rList.size();i++){
+				//rList.get(i).draw();
+				System.out.println(i + ", " + (i<rList.size()));
+				drawImage(0,0,rList.get(i).getTex());
+			}*/
+			//System.out.println("Done");
+			for(Graphics i : getRenderList()) {
+				//drawImage(0,0,i.getTex());
 				i.draw();
 			}
 			setColor(1f,0f,0f);
+			//Screen.drawImage(0,0,tex);
 			Screen.drawCircle(200, 200, 128, 16,4);
-			Screen.drawLine(200,200,232,200,4);
+			Screen.drawLine(200,200,328,200,4);
 			setColor(1f,1f,1f);
 			gCompList.clear();
 			Display.sync(FPS);
 			Display.update();
 	}
-	public static void cleanUp(){
+	
+	public static void cleanUp(){	
 		Display.destroy();
 	}
 	public static Texture loadImage(String type, String source){
@@ -100,7 +115,7 @@ public class Screen{
 		}
 		return temp;
 	}
-	public static void drawImagePartStr(int x, int y, int width, int height, int xStart, int yStart, int xWidth, int yHeight, Texture tex){
+	public static void drawImagePartStr(float x, float y, float width, float height, float xStart, float yStart, float xWidth, float yHeight, Texture tex){
 		if (!tex.equals(Screen.lastTex)){
 			tex.bind();
 			Screen.lastTex = tex;
@@ -125,8 +140,8 @@ public class Screen{
 	static void drawImagePart(int x, int y, int xStart, int yStart, int xWidth, int yHeight,Texture tex){
 		drawImagePartStr(x, y, xWidth, yHeight,xStart, yStart,xWidth, yHeight, tex);
 	}
-	public static void drawImage(int x, int y, Texture tex){
-		drawImageStr(x,y,tex.getImageWidth(),tex.getImageHeight(),tex);
+	static void drawImage(float x, float y, Texture tex){
+		drawImgStr(x,y,tex.getImageWidth(),tex.getImageHeight(),tex);
 	}
 	static void drawPolygon(float[] x, float[] y){
 		glBegin(GL_QUADS);
@@ -135,12 +150,12 @@ public class Screen{
 		}
 		glEnd();
 	}
-	static void drawImgStr(int x, int y, int width, int height, Texture tex){
+	static void drawImgStr(float x, float y, float width, float height, Texture tex){
 		drawImagePartStr(x, y, width, height,0, 0,tex.getImageWidth(), tex.getImageHeight(), tex);
 	}
 	
-	public static void drawImageStr(int x,int y, int width , int height, Texture tex){
-		//gCompList.add(new GraphicsComp(x,y,width,height,tex));
+	public static void drawImageStr(float x,float y, int width , int height, Texture tex){
+		getRenderList().add(new RenderTexture(x,y,tex));
 	}
 	public static void setColor(float r, float g, float b){
 		color.r = r;
@@ -155,7 +170,7 @@ public class Screen{
 	public static Color getColor(){
 		return color;
 	}
-	public static void drawLine(float x, float y, float x2, float y2,float size){
+	static void drawLine(float x, float y, float x2, float y2,float size){
 		glPointSize(size);
 		glBegin(GL_LINES);
 			glVertex2f(x, y);

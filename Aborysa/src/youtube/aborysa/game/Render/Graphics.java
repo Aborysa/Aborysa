@@ -1,6 +1,7 @@
 package youtube.aborysa.game.Render;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.*;
 public interface Graphics {
@@ -13,4 +14,5 @@ public interface Graphics {
 	void setColor4f(float r, float g, float b, float a);
 	Color getColor();
 	void kill();
+	public Texture getTex();
 }
