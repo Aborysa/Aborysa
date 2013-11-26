@@ -16,6 +16,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import youtube.aborysa.game.Math.geometrics.Point2f;
+import youtube.aborysa.game.Render.type.RenderTexture;
 import static org.lwjgl.opengl.GL11.*;
 
 
@@ -28,10 +30,10 @@ public class Screen{
 	
 	private static ArrayList<Graphics> gCompList = new ArrayList<Graphics>();
 	public static boolean isRunning = false;
-	
-	synchronized static ArrayList<Graphics> getRenderList(){
+	private static float[][] arrayTest = {{0,0},{180,0},{180,180},{0,0}};
+	/*synchronized static ArrayList<Graphics> getRenderList(){
 		return gCompList;
-	}
+	}*/
 	public static void init(int width, int height, String title){
 		isRunning = true;
 		try {
@@ -74,23 +76,15 @@ public class Screen{
 		//glColor3f(0.8f,0.25f,0.1f);
 			isRunning = !(Display.isCloseRequested());
 			glClear(GL_COLOR_BUFFER_BIT);
-			//ArrayList<Graphics> rList = getRenderList();
-			//rList.add(new RenderTexture(0,0,tex));
-			//System.out.println(rList.size());
-			/*for(int i=0; i < rList.size();i++){
-				//rList.get(i).draw();
-				System.out.println(i + ", " + (i<rList.size()));
-				drawImage(0,0,rList.get(i).getTex());
-			}*/
-			//System.out.println("Done");
-			for(Graphics i : getRenderList()) {
-				//drawImage(0,0,i.getTex());
+			for(Graphics i : gCompList) {	
 				i.draw();
 			}
 			setColor(1f,0f,0f);
 			//Screen.drawImage(0,0,tex);
-			Screen.drawCircle(200, 200, 128, 16,4);
-			Screen.drawLine(200,200,328,200,4);
+			//Screen.drawCircle(200, 200, 128, 16,4);
+			//Screen.drawLine(200,200,328,200,4);
+			//Screen.drawRect(64, 64, 32, 32);
+			Screen.drawPolygon(arrayTest);
 			setColor(1f,1f,1f);
 			gCompList.clear();
 			Display.sync(FPS);
@@ -140,22 +134,28 @@ public class Screen{
 	static void drawImagePart(int x, int y, int xStart, int yStart, int xWidth, int yHeight,Texture tex){
 		drawImagePartStr(x, y, xWidth, yHeight,xStart, yStart,xWidth, yHeight, tex);
 	}
-	static void drawImage(float x, float y, Texture tex){
+	public static void drawImage(float x, float y, Texture tex){
 		drawImgStr(x,y,tex.getImageWidth(),tex.getImageHeight(),tex);
 	}
+	static void drawPolygon(float[][] points){
+		glBegin(GL_QUAD_STRIP);
+		for (int i=0; i < points.length;i++){
+			glVertex2f(points[i][0],points[i][1]);
+		}
+		glEnd();
+	}
 	static void drawPolygon(float[] x, float[] y){
-		glBegin(GL_QUADS);
+		glBegin(GL_LINE_LOOP);
 		for (int i=0; i < y.length;i++){
 			glVertex2f(x[i],y[i]);
 		}
 		glEnd();
 	}
-	static void drawImgStr(float x, float y, float width, float height, Texture tex){
+	public static void drawImgStr(float x, float y, float width, float height, Texture tex){
 		drawImagePartStr(x, y, width, height,0, 0,tex.getImageWidth(), tex.getImageHeight(), tex);
 	}
-	
 	public static void drawImageStr(float x,float y, int width , int height, Texture tex){
-		getRenderList().add(new RenderTexture(x,y,tex));
+		gCompList.add(new RenderTexture(new Point2f(x,y,false),tex));
 	}
 	public static void setColor(float r, float g, float b){
 		color.r = r;
@@ -170,7 +170,7 @@ public class Screen{
 	public static Color getColor(){
 		return color;
 	}
-	static void drawLine(float x, float y, float x2, float y2,float size){
+	public static void drawLine(float x, float y, float x2, float y2,float size){
 		glPointSize(size);
 		glBegin(GL_LINES);
 			glVertex2f(x, y);
@@ -185,12 +185,15 @@ public class Screen{
 			}
 		glEnd();
 	}
-	public static void drawRect(int x, int y, int width, int height){
+	/*public static void drawRect(int x, int y, int width, int height){
 		drawImgStr(x,y,width,height,colorTexture);
+	}*/
+	public static void drawRect(float x, float y, float width, float height){
+		glBegin(GL_QUADS);
+			glVertex2f(x,y);
+			glVertex2f(x+width,y);
+			glVertex2f(x+width,y+height);
+			glVertex2f(x,y+height);
+		glEnd();
 	}
-	public static void drawPoly(int[] x, int[] y){
-		
-	}
-
-	
 }

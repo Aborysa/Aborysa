@@ -1,20 +1,32 @@
-package youtube.aborysa.game.Render;
+package youtube.aborysa.game.Render.type;
+
+import java.awt.geom.Dimension2D;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
-
+import youtube.aborysa.game.Render.Graphics;
+import youtube.aborysa.game.Render.Screen;
+//import youtube.aborysa.game.Render;
 public class RenderTexture implements Graphics{
 	Point2f pos;
-	float depth;
+	float depth,width,height;
+	Dimension2D dim;
 	Texture tex;
 	
-	public RenderTexture(float x, float y,Texture tex){
+	public RenderTexture(Point2f pos,Texture tex){
 		this.tex = tex;
-		pos = new Point2f(x,y,false);
+		this.pos = pos;
+		width = tex.getWidth();
+		height = tex.getHeight();
 	}
-
+	public RenderTexture(Point2f pos, float width, float height,Texture tex){
+		this.pos = pos;
+		this.tex = tex;
+		this.width = width;
+		this.height = height;
+	}
 	@Override
 	public void draw() {
 		//System.out.println("Go fuck your self");
