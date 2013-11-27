@@ -1,7 +1,10 @@
 package youtube.aborysa;
 
 import org.newdawn.slick.opengl.Texture;
+
 import youtube.aborysa.game.Render.Screen;
+import youtube.aborysa.game.Input.KeyHandler;
+import youtube.aborysa.game.Input.KeyListener;
 import youtube.aborysa.game.Math.geometrics.*;
 
 public class Main {
@@ -21,7 +24,7 @@ public class Main {
 			Screen.drawImageStr(100, 100,32,32, t);
 			Screen.drawImageStr(164, 100,32,32, t2);
 			Screen.drawImageStr(228, 100,128,128, t3);
-			
+			System.out.println(KeyHandler.getKey()); 
 			//Screen.setColor(1f,0f,0f);
 			//Screen.setColor(1f,1f,1f);
 			//Screen.drawImagePart(228+64, 100,0,0,64,64, p3);
