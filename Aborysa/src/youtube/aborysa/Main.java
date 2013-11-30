@@ -5,32 +5,62 @@ import org.newdawn.slick.opengl.Texture;
 import youtube.aborysa.game.Render.Screen;
 import youtube.aborysa.game.Input.KeyHandler;
 import youtube.aborysa.game.Input.KeyListener;
+import youtube.aborysa.game.Input.MouseHandler;
+import youtube.aborysa.game.Input.MouseListener;
 import youtube.aborysa.game.Math.geometrics.*;
 
-public class Main {
-	
-	public static void main(String[] args){	
+public class Main implements KeyListener, MouseListener {
+	static boolean left = false;
+	static boolean up = false;
+	static boolean down = false;
+	static boolean right = false;
+	static float x = 0;
+	static float y = 0;
+	public Main(){}
+	public static void main(String[] args) {	
 		Screen.init(640,480,"TEST");
+		KeyHandler.init();
+		KeyHandler.addKeyListener(new Main());
+		MouseHandler.init();
+		MouseHandler.addMouseListener(new Main());
 		Texture tex = Screen.loadImage("PNG", "img/Test.png");
 		Texture t = Screen.loadImage("PNG","img/Potet.png");
 		Texture t2 = Screen.loadImage("PNG", "img/Potet_2.png");
 		Texture t3 = Screen.loadImage("PNG", "img/Potet_3.png");
 		Screen.setColor(1f, 1f, 1f);
 		while (Screen.isRunning){
-			Screen.drawImageStr(32, 32,32,32, tex);
+			Screen.drawImageStr(x, y,32,32, tex);
+			
 			Screen.drawImageStr(64, 32,32,32, tex);
 			Screen.drawImageStr(96, 32,32,32, tex);
 			Screen.drawImageStr(128, 32,32,32, tex);
 			Screen.drawImageStr(100, 100,32,32, t);
 			Screen.drawImageStr(164, 100,32,32, t2);
 			Screen.drawImageStr(228, 100,128,128, t3);
-			System.out.println(KeyHandler.getKey()); 
+			KeyHandler.update();
+			MouseHandler.update();
+			if(right){
+				x+=3;			
+			}
+			if(left){
+				x-=3;
+			}
+			if(up){
+				y-=3;
+			}
+			if(down){
+				y+=3;
+			}
+			//Screen.drawImageStr(228+64, 100,128,128, t3);
+			//	System.out.println(KeyHandler.getKey()); 
 			//Screen.setColor(1f,0f,0f);
 			//Screen.setColor(1f,1f,1f);
 			//Screen.drawImagePart(228+64, 100,0,0,64,64, p3);
 			Screen.run();
 		}
 		System.out.println("Terminating");
+		MouseHandler.dispose();
+		KeyHandler.dispose();
 		Screen.cleanUp();
 	
 		Point2f p1 = new Point2f(1,1,false);
@@ -43,5 +73,45 @@ public class Main {
 		}else{
 			System.out.println(p3.toString());
 		}
+	}
+
+	@Override
+	public void ButtonPressed(int keyCode) {
+		if (keyCode == 200){
+			up = true;
+		}
+		if (keyCode == 208){
+			down = true;
+		}
+		if (keyCode == 203){
+			left = true;
+		}
+		if (keyCode == 205){
+			right = true;
+		}
+	}
+
+	@Override
+	public void ButtonReleasd(int keyCode) {
+		if (keyCode == 200){
+			up = false;
+		}
+		if (keyCode == 208){
+			down = false;
+		}
+		if (keyCode == 203){
+			left = false;
+		}
+		if (keyCode == 205){
+			right = false;
+		}		
+	}
+	@Override
+	public void mouseClick(float x, float y, int code) {
+		System.out.println("Mouse pressed: " + x + ", " + y + ", " + code);
+	}
+	@Override
+	public void mouseRelease(float x, float y, int code) {
+		
 	}
 }

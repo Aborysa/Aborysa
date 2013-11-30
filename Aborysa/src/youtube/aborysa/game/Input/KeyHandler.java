@@ -1,7 +1,9 @@
 package youtube.aborysa.game.Input;
 import java.util.ArrayList;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class KeyHandler{
 	
@@ -10,23 +12,40 @@ public class KeyHandler{
 	static int[][] keyCodes;
 	static boolean[] down = new boolean[65535];
 	public static void addKeyListener(KeyListener listener){
-		listeners.add(listener);
+		if (Keyboard.isCreated())
+			listeners.add(listener);
 	}
 	public static void clearListener(KeyListener listener){
-		listeners.remove(listener);
+		if (Keyboard.isCreated())
+			listeners.remove(listener);
 	}
-	public static void checkKeys(){
-		keyCodes = new int[listeners.size()][];
-		int count = 0;
-		for(KeyListener i : listeners){
-			keyCodes[count] = i.getKeyCodes();
-			count++;
-		}
-		for(int i=0; i<keyCodes.length;i++){
-			
-		}
+	public static void init(){
+		if (!Keyboard.isCreated())
+			try {
+				Keyboard.create();
+			} catch (LWJGLException e) {
+				e.printStackTrace();
+			}
 	}
-	public static int getKey(){
-		return 0;
+	public static void dispose(){
+		listeners.clear();
+		Keyboard.destroy();
+	}
+	public static void update(){
+		if (Keyboard.isCreated()){
+			boolean getNext = Keyboard.next();
+			if (getNext){
+				int keyCode = Keyboard.getEventKey();
+				char Char = Keyboard.getEventCharacter();
+				boolean pressed = Keyboard.getEventKeyState();
+				System.out.println("Keycode: " + keyCode + ", char: " + Char + ", pressed: " + pressed + ", keyName: " + Keyboard.getKeyName(keyCode));
+				for(KeyListener l : listeners){
+					if(pressed)
+						l.ButtonPressed(keyCode);
+					else
+						l.ButtonReleasd(keyCode);
+				}
+			}
+		}
 	}
 }
