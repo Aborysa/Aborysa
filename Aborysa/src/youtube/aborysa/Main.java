@@ -1,8 +1,11 @@
 package youtube.aborysa;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Render.Screen;
+import youtube.aborysa.game.GameObjects.TestProject;
 import youtube.aborysa.game.Input.KeyHandler;
 import youtube.aborysa.game.Input.KeyListener;
 import youtube.aborysa.game.Input.MouseHandler;
@@ -16,21 +19,25 @@ public class Main implements KeyListener, MouseListener {
 	static boolean right = false;
 	static float x = 0;
 	static float y = 0;
+	static Texture tex;
+	static ArrayList<TestProject> pros = new ArrayList<TestProject>();
+	static ArrayList<TestProject> killed = new ArrayList<TestProject>();
+	static int killCount = 0;
 	public Main(){}
+	
 	public static void main(String[] args) {	
 		Screen.init(640,480,"TEST");
 		KeyHandler.init();
 		KeyHandler.addKeyListener(new Main());
 		MouseHandler.init();
 		MouseHandler.addMouseListener(new Main());
-		Texture tex = Screen.loadImage("PNG", "img/Test.png");
+		tex = Screen.loadImage("PNG", "img/Test.png");
 		Texture t = Screen.loadImage("PNG","img/Potet.png");
 		Texture t2 = Screen.loadImage("PNG", "img/Potet_2.png");
 		Texture t3 = Screen.loadImage("PNG", "img/Potet_3.png");
 		Screen.setColor(1f, 1f, 1f);
 		while (Screen.isRunning){
 			Screen.drawImageStr(x, y,32,32, tex);
-			
 			Screen.drawImageStr(64, 32,32,32, tex);
 			Screen.drawImageStr(96, 32,32,32, tex);
 			Screen.drawImageStr(128, 32,32,32, tex);
@@ -39,6 +46,19 @@ public class Main implements KeyListener, MouseListener {
 			Screen.drawImageStr(228, 100,128,128, t3);
 			KeyHandler.update();
 			MouseHandler.update();
+			for(TestProject i : pros){
+				i.update();
+				if (i.killed){
+					killed.add(i);
+				}
+			}
+			for(TestProject i : killed){
+				pros.remove(i);
+				killCount++;
+			}
+			killed.clear();
+			System.out.println(killCount);
+			killCount = 0;
 			if(right){
 				x+=3;			
 			}
@@ -108,7 +128,14 @@ public class Main implements KeyListener, MouseListener {
 	}
 	@Override
 	public void mouseClick(float x, float y, int code) {
-		System.out.println("Mouse pressed: " + x + ", " + y + ", " + code);
+		//System.out.println("Mouse pressed: " + x + ", " + y + ", " + code);
+		float dx = x - Main.x;
+		float dy = ((480-y) - Main.y);
+		float xV = (float) (dx/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
+		float yV = (float) (dy/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
+		//System.out.println(xV);
+		//System.out.println(yV);
+		pros.add(new TestProject(new Vector2f(xV*6,yV*6, new Point2f(this.x,this.y,false)), Main.tex));
 	}
 	@Override
 	public void mouseRelease(float x, float y, int code) {

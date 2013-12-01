@@ -38,7 +38,7 @@ public class KeyHandler{
 				int keyCode = Keyboard.getEventKey();
 				char Char = Keyboard.getEventCharacter();
 				boolean pressed = Keyboard.getEventKeyState();
-				System.out.println("Keycode: " + keyCode + ", char: " + Char + ", pressed: " + pressed + ", keyName: " + Keyboard.getKeyName(keyCode));
+				//System.out.println("Keycode: " + keyCode + ", char: " + Char + ", pressed: " + pressed + ", keyName: " + Keyboard.getKeyName(keyCode));
 				for(KeyListener l : listeners){
 					if(pressed)
 						l.ButtonPressed(keyCode);
