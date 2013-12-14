@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 public class KeyHandler{
 	

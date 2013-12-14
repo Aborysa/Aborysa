@@ -4,8 +4,8 @@ import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Math.geometrics.Vector2f;
+import youtube.aborysa.game.Render.RenderTexture;
 import youtube.aborysa.game.Render.Screen;
-import youtube.aborysa.game.Render.type.RenderTexture;
 
 public class TestProject {
 	Vector2f speed;
@@ -19,7 +19,7 @@ public class TestProject {
 	}
 	public void update(){
 		pos.setCords(speed.getX()+pos.getX(), speed.getY() + pos.getY());
-		Screen.drawImageStr(pos.getX(),pos.getY(),tex.getImageWidth(),tex.getImageHeight(),tex);
+		Screen.drawImgStr(pos.getX(),pos.getY(),tex.getImageWidth(),tex.getImageHeight(),tex);
 		if ((pos.getX() > 640)||(pos.getX() < 0)||(pos.getY()<0)||(pos.getY() > 480) ){
 			killed = true;
 		} 

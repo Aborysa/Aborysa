@@ -1,4 +1,4 @@
-package youtube.aborysa.game.Render.type;
+package youtube.aborysa.game.Render;
 
 import java.awt.geom.Dimension2D;
 
@@ -6,31 +6,35 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
-import youtube.aborysa.game.Render.Graphics;
-import youtube.aborysa.game.Render.Screen;
+import youtube.aborysa.game.Math.geometrics.Vector2f;
 //import youtube.aborysa.game.Render;
 public class RenderTexture implements Graphics{
-	Point2f pos;
-	float depth,width,height;
-	Dimension2D dim;
+	float depth;
 	Texture tex;
-	
+	Vector2f dim;
+	Vector2f part;
 	public RenderTexture(Point2f pos,Texture tex){
 		this.tex = tex;
-		this.pos = pos;
-		width = tex.getWidth();
-		height = tex.getHeight();
+		dim = new Vector2f((float) tex.getImageWidth(),(float) tex.getImageHeight(), pos);
 	}
-	public RenderTexture(Point2f pos, float width, float height,Texture tex){
-		this.pos = pos;
+	public RenderTexture(Vector2f dimention,Texture tex){
 		this.tex = tex;
-		this.width = width;
-		this.height = height;
+		dim = dimention;
+	}
+	public RenderTexture(Vector2f dimention,Vector2f texPart,Texture tex){
+		this.tex = tex;
+		dim = dimention;
+		part = texPart;
 	}
 	@Override
 	public void draw() {
-		//System.out.println("Go fuck your self");
-		Screen.drawImage(pos.getX(), pos.getY(), tex);
+		Point2f pos = dim.getPos();
+		if (part != null){
+			Point2f partStart = part.getPos();
+			Screen.drawImagePartStr(pos.getX(), pos.getY(), dim.getX(), dim.getY(), partStart.getX() , partStart.getY(), part.getX(), part.getY(), tex);
+		}else{
+			Screen.drawImageStr(pos.getX(), pos.getY(),dim.getX(),dim.getY(), tex);
+		}
 	}
 	public Texture getTex(){
 		return tex;

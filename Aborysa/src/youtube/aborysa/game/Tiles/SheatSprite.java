@@ -1,5 +1,10 @@
 package youtube.aborysa.game.Tiles;
 
+import org.newdawn.slick.opengl.Texture;
+
+import youtube.aborysa.game.Math.geometrics.Point2f;
+import youtube.aborysa.game.Math.geometrics.Vector2f;
+
 public class SheatSprite {
 	private SpriteSheat sheat;
 	private int sIndex, indexLength;
@@ -27,5 +32,8 @@ public class SheatSprite {
 	}
 	public void advance(){
 		imageIndex = sIndex + ( (imageIndex++) % indexLength);
+	}
+	public Vector2f getTexCords(){
+		return sheat.getTexCords(imageIndex+sIndex);
 	}
 }

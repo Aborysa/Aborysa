@@ -8,12 +8,7 @@ public class Sprite {
 	private int imageIndex;
 	
 	public Sprite(Texture[] tex){
-		textures = new Texture[tex.length];
-		int counter = 0;
-		for(Texture i : tex){
-			textures[counter] = i;
-			counter++;
-		}
+		textures = tex;
 	}
 	public void setImageIndex(int index){
 		imageIndex = index % textures.length;
