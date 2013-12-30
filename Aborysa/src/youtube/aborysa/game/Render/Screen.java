@@ -124,7 +124,7 @@ public class Screen{
 			glVertex2f(width+x,height+y);
 		glEnd();
 	}
-	protected static void drawImagePart(int x, int y, int xStart, int yStart, int xEnd, int yEnd,Texture tex){
+	protected static void drawImagePart(float x, float y, float xStart, float yStart, float xEnd, float yEnd,Texture tex){
 		drawImagePartStr(x, y, xEnd*tex.getImageWidth(), yEnd*tex.getImageHeight(),xStart, yStart,xEnd, yEnd, tex);
 	}
 	protected static void drawImage(float x, float y, Texture tex){

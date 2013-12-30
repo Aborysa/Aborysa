@@ -47,7 +47,7 @@ public class Main implements KeyListener, MouseListener {
 		Texture t3 = Screen.loadImage("PNG", "img/Potet_3.png");
 		Texture sheat1 = Screen.loadImage("PNG", "img/SpriteSheet.png");
 		SpriteSheat sTest = new SpriteSheat(sheat1,32,32);
-		SheatSprite testSprite = new SheatSprite(sTest,1,1);
+		SheatSprite testSprite = new SheatSprite(sTest,0,0);
 		FPSCounter counter = new FPSCounter();
 		while (Screen.isRunning){
 			
