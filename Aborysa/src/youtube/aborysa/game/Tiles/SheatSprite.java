@@ -5,10 +5,10 @@ import org.newdawn.slick.opengl.Texture;
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Math.geometrics.Vector2f;
 
-public class SheatSprite {
+public class SheatSprite implements Cloneable{
 	private SpriteSheat sheat;
 	private int sIndex, indexLength;
-	private int imageIndex;
+	private int imageIndex = 0;
 
 	public SheatSprite(SpriteSheat sheat, int sIndex, int indexL){
 		this.sheat = sheat;
@@ -28,10 +28,18 @@ public class SheatSprite {
 		return imageIndex;
 	}
 	public void setImageIndex(int index){
-		imageIndex = sIndex + (index % indexLength);
+		imageIndex = (index % indexLength);
+	}
+	public SheatSprite clone(){
+		try {
+			return (SheatSprite) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	public void advance(){
-		imageIndex = sIndex + ( (imageIndex++) % indexLength);
+		imageIndex = ((imageIndex+1) % indexLength);
 	}
 	public Vector2f getTexCords(){
 		return sheat.getTexCords(imageIndex+sIndex);

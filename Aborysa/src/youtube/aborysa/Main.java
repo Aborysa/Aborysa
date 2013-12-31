@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Render.RenderTexture;
@@ -30,6 +31,11 @@ public class Main implements KeyListener, MouseListener {
 	static ArrayList<TestProject> killed = new ArrayList<TestProject>();
 	static int killCount = 0;
 	public final static URL Root = Main.class.getResource("");
+	static Texture sheat1;
+	static SpriteSheat sTest;
+	static SheatSprite testSprite;
+	static SheatSprite testSprite2;
+	static SheatSprite testSprite3;
 	public Main(){}
 	
 	public static void main(String[] args) {	
@@ -45,9 +51,11 @@ public class Main implements KeyListener, MouseListener {
 		Texture t = Screen.loadImage("PNG","img/Potet.png");
 		Texture t2 = Screen.loadImage("PNG", "img/Potet_2.png");
 		Texture t3 = Screen.loadImage("PNG", "img/Potet_3.png");
-		Texture sheat1 = Screen.loadImage("PNG", "img/SpriteSheet.png");
-		SpriteSheat sTest = new SpriteSheat(sheat1,32,32);
-		SheatSprite testSprite = new SheatSprite(sTest,0,0);
+		sheat1 = Screen.loadImage("PNG", "img/SpriteSheet.png");
+		sTest = new SpriteSheat(sheat1,32,32);
+		testSprite = new SheatSprite(sTest,0,2);
+		testSprite2 = new SheatSprite(sTest,1,2);
+		testSprite3 = testSprite2.clone();
 		FPSCounter counter = new FPSCounter();
 		while (Screen.isRunning){
 			
@@ -61,8 +69,17 @@ public class Main implements KeyListener, MouseListener {
 			Screen.drawImgStr(100, 100,32,32, t);
 			Screen.drawImgStr(164, 100,32,32, t2);
 			Screen.drawImgStr(228, 100,128,128, t3);
-			
+			//testSprite.advance();
+
 			Screen.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTex()));
+			for(int i=0; i<6;i++){
+				for(int k=0;k<3;k++)
+					Screen.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTex()));
+				for(int k=3;k<6;k++)
+					Screen.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite3.getTexCords(), sTest.getTex()));
+			}
+			
+			
 			for(TestProject i : pros){
 				i.update();
 				if (i.killed){
@@ -127,6 +144,10 @@ public class Main implements KeyListener, MouseListener {
 		}
 		if (keyCode == 205){
 			right = true;
+		}
+		if(keyCode == Keyboard.KEY_SPACE){
+			Main.testSprite.advance();
+			Main.testSprite2.advance();
 		}
 	}
 

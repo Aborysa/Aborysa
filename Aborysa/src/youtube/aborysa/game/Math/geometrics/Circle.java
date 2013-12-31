@@ -1,6 +1,6 @@
 package youtube.aborysa.game.Math.geometrics;
 
-public class Circle {
+public class Circle implements Cloneable{
 	private float radius;
 	private Point2f pos = null;
 	
@@ -12,6 +12,10 @@ public class Circle {
 			this.pos = pos;
 		}
 	}
+	private void setPos(Point2f pos){
+		if (pos != null)
+			this.pos = pos; 
+	}
 	public float getRadius(){
 		return radius;
 	}
@@ -20,5 +24,15 @@ public class Circle {
 	}
 	public void setRadius(float radius){
 		this.radius = radius;
+	}
+	public Circle clone(){
+		try {
+			Circle clone = (Circle)(super.clone());
+			clone.setPos(getPos().clone());
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

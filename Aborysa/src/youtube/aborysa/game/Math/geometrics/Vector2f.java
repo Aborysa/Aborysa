@@ -1,6 +1,6 @@
 package youtube.aborysa.game.Math.geometrics;
 
-public class Vector2f {
+public class Vector2f implements Cloneable{
 	private float x,y = 0;
 	private Point2f pos = null;
 	public Vector2f(float x, float y, Point2f pos){
@@ -16,6 +16,10 @@ public class Vector2f {
 		this.x = x;
 		this.y = y;
 		this.pos = new Point2f(x2,y2,false);
+	}
+	private void setPos(Point2f pos){
+		if (pos != null)
+			this.pos = pos;
 	}
 	public float getLength(){
 		float len = 0;
@@ -58,6 +62,17 @@ public class Vector2f {
 		//TODO fix the error, replace the next line
 		rad = (float) Math.acos(getScalar(vec1,vec2)/(vec1.getLength()*vec2.getLength()));
 		return rad;
+	}
+	public Vector2f clone(){
+		Vector2f clone;
+		try {
+			clone = (Vector2f)super.clone();
+			clone.setPos(pos.clone());
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
