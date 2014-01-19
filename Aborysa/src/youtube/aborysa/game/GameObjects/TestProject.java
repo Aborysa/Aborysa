@@ -8,13 +8,14 @@ import youtube.aborysa.game.Render.Drawer;
 import youtube.aborysa.game.Render.RenderTexture;
 import youtube.aborysa.game.Render.Screen;
 import youtube.aborysa.game.Tiles.Sprite;
+import youtube.aborysa.game.Tiles.USprite;
 
 public class TestProject {
 	Vector2f speed;
 	Point2f pos;
-	Sprite spr;
+	USprite spr;
 	public boolean killed = false;
-	public TestProject(Vector2f dir, Sprite spr){
+	public TestProject(Vector2f dir, USprite spr){
 		speed = dir;
 		this.pos = dir.getPos();
 		this.spr = spr;

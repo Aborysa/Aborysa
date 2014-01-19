@@ -13,6 +13,8 @@ import youtube.aborysa.game.Render.Screen;
 import youtube.aborysa.game.Tiles.SheatSprite;
 import youtube.aborysa.game.Tiles.Sprite;
 import youtube.aborysa.game.Tiles.SpriteSheat;
+import youtube.aborysa.game.Tiles.USprite;
+import youtube.aborysa.game.Tiles.USpriteSheat;
 import youtube.aborysa.game.Util.FPSCounter;
 import youtube.aborysa.game.GameObjects.TestProject;
 import youtube.aborysa.game.Input.KeyHandler;
@@ -34,11 +36,11 @@ public class Main implements KeyListener, MouseListener {
 	static int killCount = 0;
 	public final static URL Root = Main.class.getResource("");
 	static Texture sheat1;
-	static SpriteSheat sTest;
-	static SheatSprite testSprite;
-	static SheatSprite testSprite2;
-	static SheatSprite testSprite3;
-	static Sprite playerSpr;
+	static USpriteSheat sTest;
+	static USprite testSprite;
+	static USprite testSprite2;
+	static USprite testSprite3;
+	static USprite playerSpr;
 	public Main(){}
 	
 
@@ -56,11 +58,11 @@ public class Main implements KeyListener, MouseListener {
 		Texture t2 = Screen.loadImage("PNG", "img/Potet_2.png");
 		Texture t3 = Screen.loadImage("PNG", "img/Potet_3.png");
 		sheat1 = Screen.loadImage("PNG", "img/SpriteSheet.png");
-		playerSpr = new Sprite(tex);
-		sTest = new SpriteSheat(sheat1,32,32);
-		testSprite = new SheatSprite(sTest,0,2);
+		playerSpr = new USprite(tex);
+		sTest = new USpriteSheat(sheat1,32,32);
+		testSprite = new USprite(sTest,0,2);
 		testSprite.setImageIndex(1);
-		testSprite2 = new SheatSprite(sTest,1,2);
+		testSprite2 = new USprite(sTest,1,2);
 		testSprite3 = testSprite2.clone();
 		FPSCounter counter = new FPSCounter();
 		while (Screen.isRunning){
@@ -69,20 +71,20 @@ public class Main implements KeyListener, MouseListener {
 			MouseHandler.update();
 			//Screen.setColor(1f, 1f, 1f);
 			Drawer.drawSprite(playerSpr,x,y);
-			/*Screen.drawImgStr(64, 32,32,32, tex);
-			Screen.drawImgStr(96, 32,32,32, tex);
-			Screen.drawImgStr(128, 32,32,32, tex);
-			Screen.drawImgStr(100, 100,32,32, t);
-			Screen.drawImgStr(164, 100,32,32, t2);
-			Screen.drawImgStr(228, 100,128,128, t3);
+			Drawer.drawSprite(playerSpr,64,32);
+			Drawer.drawSprite(playerSpr,96,32);
+			Drawer.drawSprite(playerSpr,128,32);
+		//	Screen.drawImgStr(100, 100,32,32, t);
+		//	Screen.drawImgStr(164, 100,32,32, t2);
+		//	Screen.drawImgStr(228, 100,128,128, t3);
 			//testSprite.advance();
-		*/
-			Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTex()));
+		
+			Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTexture()));
 			for(int i=0; i<6;i++){
 				for(int k=0;k<3;k++)
-					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTex()));
+					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTexture()));
 				for(int k=3;k<6;k++)
-					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite3.getTexCords(), sTest.getTex()));
+					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite3.getTexCords(), sTest.getTexture()));
 			}
 			
 			
