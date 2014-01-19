@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.opengl.Texture;
 
+import youtube.aborysa.game.Render.Drawer;
 import youtube.aborysa.game.Render.RenderTexture;
 import youtube.aborysa.game.Render.Screen;
 import youtube.aborysa.game.Tiles.SheatSprite;
+import youtube.aborysa.game.Tiles.Sprite;
 import youtube.aborysa.game.Tiles.SpriteSheat;
 import youtube.aborysa.game.Util.FPSCounter;
 import youtube.aborysa.game.GameObjects.TestProject;
@@ -36,8 +38,10 @@ public class Main implements KeyListener, MouseListener {
 	static SheatSprite testSprite;
 	static SheatSprite testSprite2;
 	static SheatSprite testSprite3;
+	static Sprite playerSpr;
 	public Main(){}
 	
+
 	public static void main(String[] args) {	
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		Screen.init(640,480,"TEST");
@@ -52,8 +56,10 @@ public class Main implements KeyListener, MouseListener {
 		Texture t2 = Screen.loadImage("PNG", "img/Potet_2.png");
 		Texture t3 = Screen.loadImage("PNG", "img/Potet_3.png");
 		sheat1 = Screen.loadImage("PNG", "img/SpriteSheet.png");
+		playerSpr = new Sprite(tex);
 		sTest = new SpriteSheat(sheat1,32,32);
 		testSprite = new SheatSprite(sTest,0,2);
+		testSprite.setImageIndex(1);
 		testSprite2 = new SheatSprite(sTest,1,2);
 		testSprite3 = testSprite2.clone();
 		FPSCounter counter = new FPSCounter();
@@ -61,22 +67,22 @@ public class Main implements KeyListener, MouseListener {
 			
 			KeyHandler.update();
 			MouseHandler.update();
-			Screen.setColor(1f, 1f, 1f);
-			Screen.drawImgStr(x, y,32,32, tex);
-			Screen.drawImgStr(64, 32,32,32, tex);
+			//Screen.setColor(1f, 1f, 1f);
+			Drawer.drawSprite(playerSpr,x,y);
+			/*Screen.drawImgStr(64, 32,32,32, tex);
 			Screen.drawImgStr(96, 32,32,32, tex);
 			Screen.drawImgStr(128, 32,32,32, tex);
 			Screen.drawImgStr(100, 100,32,32, t);
 			Screen.drawImgStr(164, 100,32,32, t2);
 			Screen.drawImgStr(228, 100,128,128, t3);
 			//testSprite.advance();
-
-			Screen.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTex()));
+		*/
+			Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTex()));
 			for(int i=0; i<6;i++){
 				for(int k=0;k<3;k++)
-					Screen.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTex()));
+					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTex()));
 				for(int k=3;k<6;k++)
-					Screen.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite3.getTexCords(), sTest.getTex()));
+					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite3.getTexCords(), sTest.getTex()));
 			}
 			
 			
@@ -175,7 +181,7 @@ public class Main implements KeyListener, MouseListener {
 		float yV = (float) (dy/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
 		//System.out.println(xV);
 		//System.out.println(yV);
-		pros.add(new TestProject(new Vector2f(xV*6,yV*6, new Point2f(this.x,this.y,false)), Main.tex));
+		pros.add(new TestProject(new Vector2f(xV*6,yV*6, new Point2f(this.x,this.y,false)), Main.playerSpr));
 	}
 	@Override
 	public void mouseRelease(float x, float y, int code) {

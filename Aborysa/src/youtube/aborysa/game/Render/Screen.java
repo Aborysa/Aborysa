@@ -12,7 +12,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -65,8 +64,7 @@ public class Screen{
 	private static void pastInit(){
 		tex = loadImage("PNG", "img/Potet_2.png");	
 		colorTexture = loadImage("PNG","img/Cimg.png");
-		setColor(1,1,1);
-		setAlpha(1);
+		setColor(1,1,1,1);
 	}
 	public static void run(){
 		//glColor3f(0.8f,0.25f,0.1f);
@@ -75,16 +73,16 @@ public class Screen{
 			for(Graphics i : gCompList) {	
 				i.draw();
 			}
-			setColor(1f,0f,0f);
+			setColor(1f,0f,0f,1f);
 			//Screen.drawImage(0,0,tex);
 			//Screen.drawImagePartStr(0,0,tex.getImageWidth()*2,tex.getImageHeight()*2,0,0,2f,2f,tex);
 			//Screen.drawCircle(200, 200, 128, 64,4);
 			//Screen.drawLine(200,200,328,200,4);
 			//Screen.drawRect(64, 64, 32, 32);
 			Screen.drawPolyTexFan(arrayTest2,arrayTest, tex);
-			setColor(0,0.1f,0.9f);
+			setColor(0,0.1f,0.9f,1f);
 			Screen.drawPolygon(arrayTest2);
-			setColor(1f,1f,1f);
+			setColor(1f,1f,1f,1f);
 			gCompList.clear();
 			Display.sync(FPS);
 			Display.update();
@@ -127,9 +125,9 @@ public class Screen{
 	protected static void drawImagePart(float x, float y, float xStart, float yStart, float xEnd, float yEnd,Texture tex){
 		drawImagePartStr(x, y, xEnd*tex.getImageWidth(), yEnd*tex.getImageHeight(),xStart, yStart,xEnd, yEnd, tex);
 	}
-	protected static void drawImage(float x, float y, Texture tex){
+	/*protected static void drawImage(float x, float y, Texture tex){
 		drawImgStr(x,y,tex.getImageWidth(),tex.getImageHeight(),tex);
-	}
+	}*/
 	protected static void drawPolyTexFan(float[][] points, float[][] texCords,Texture tex) throws ArrayIndexOutOfBoundsException{
 		if (!tex.equals(Screen.lastTex)){
 			tex.bind();
@@ -166,21 +164,15 @@ public class Screen{
 	protected static void drawImageStr(float x, float y, float width, float height, Texture tex){
 		drawImagePartStr(x, y, width, height,0, 0,1, 1, tex);
 	}
-	public static void drawImgStr(float x,float y, float width , float height, Texture tex){
+/*	public static void drawImgStr(float x,float y, float width , float height, Texture tex){
 		gCompList.add(new RenderTexture(new Point2f(x,y,false),tex)); //TODO: CHANGE THE FUNCTION NAME AND MAKE IT MORE ABSTRACT!!!!!
-	}
-	public static void draw(Graphics g){
+	}*/
+	protected static void draw(Graphics g){
 		gCompList.add(g);
 	}
-	public static void setColor(float r, float g, float b){
-		color.r = r;
-		color.b = b;
-		color.g = g;
-		glColor4f(r,g,b,color.a);
-	}
-	public static void setAlpha(float a){
-		color.a = a;
-		glColor4f(color.r, color.g, color.b, a);
+	protected static void setColor(float r, float g, float b,float a){
+		color.setColor(r, g, b, a);
+		glColor4f(r,g,b,a);
 	}
 	protected static Color getColor(){
 		return color;

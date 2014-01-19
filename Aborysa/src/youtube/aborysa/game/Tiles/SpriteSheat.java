@@ -30,8 +30,7 @@ public class SpriteSheat{
 		int yIndex = (int) Math.floor(index / ((tex.getImageWidth() / (float)(TILE_WIDTH))));
 		Point2f  sTemp = new Point2f(((xIndex*(float)(TILE_WIDTH)) / (tex.getImageWidth())),(float)(yIndex*(float)(TILE_WIDTH) /tex.getImageHeight()),false);
 		Vector2f tempVec = new Vector2f(texCord.getX()+sTemp.getX(),texCord.getY()+sTemp.getY(),sTemp);
-		return tempVec;
-		
+		return tempVec;	
 	}
 
 }
