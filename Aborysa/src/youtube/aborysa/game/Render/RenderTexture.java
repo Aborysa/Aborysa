@@ -13,6 +13,7 @@ public class RenderTexture implements Graphics{
 	Vector2f dim;
 	Vector2f part;
 	Color c = null;
+	boolean killed = false;
 	public RenderTexture(Point2f pos,Texture tex){
 		this.tex = tex;
 		dim = new Vector2f((float) tex.getImageWidth(),(float) tex.getImageHeight(), pos);
@@ -28,12 +29,14 @@ public class RenderTexture implements Graphics{
 	}
 	@Override
 	public void draw() {
-		Point2f pos = dim.getPos();
-		if (part != null){
-			Point2f partStart = part.getPos();
-			Screen.drawImagePartStr(pos.getX(), pos.getY(), dim.getX(), dim.getY(), partStart.getX() , partStart.getY(), part.getX(), part.getY(), tex);
-		}else{
-			Screen.drawImageStr(pos.getX(), pos.getY(),dim.getX(),dim.getY(), tex);
+		if (!killed){
+			Point2f pos = dim.getPos();
+			if (part != null){
+				Point2f partStart = part.getPos();
+				Screen.drawImagePartStr(pos.getX(), pos.getY(), dim.getX(), dim.getY(), partStart.getX() , partStart.getY(), part.getX(), part.getY(), tex);
+			}else{
+				Screen.drawImageStr(pos.getX(), pos.getY(),dim.getX(),dim.getY(), tex);
+			}
 		}
 	}
 	public Texture getTex(){
@@ -61,7 +64,6 @@ public class RenderTexture implements Graphics{
 
 	@Override
 	public void setPosition(Point2f point) {
-		
 	}
 
 	@Override
@@ -76,8 +78,7 @@ public class RenderTexture implements Graphics{
 
 	@Override
 	public void kill() {
-		// TODO Auto-generated method stub
-		
+		killed = true;
 	}
 	
 	

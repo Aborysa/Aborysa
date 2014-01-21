@@ -73,6 +73,7 @@ public class Screen{
 			for(Graphics i : gCompList) {	
 				setColor(i.getColor());
 				i.draw();
+				i.kill(); // <------ Kind of pointless for now
 			}
 			setColor(1f,0f,0f,1f);
 			//Screen.drawImage(0,0,tex);

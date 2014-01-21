@@ -30,6 +30,9 @@ public class Drawer {
 		Graphics g = new RenderTexture(new Vector2f(w,h,new Point2f(x,y,false)),new Vector2f(1,1,new Point2f(0,0,false)), tex); 
 		draw(g);
 	}
+	public static void drawPolygon(){
+		
+	}
 	public static void setColor(float r, float g, float b, float a){
 		c = new Color(r,g,b,a);
 	}
