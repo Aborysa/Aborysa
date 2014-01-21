@@ -70,7 +70,9 @@ public class Main implements KeyListener, MouseListener {
 			KeyHandler.update();
 			MouseHandler.update();
 			//Screen.setColor(1f, 1f, 1f);
+			Drawer.setColor(1f,0f,0f,1f);
 			Drawer.drawSprite(playerSpr,x,y);
+			Drawer.setColor(1f,1f,1f,1f);
 			Drawer.drawSprite(playerSpr,64,32);
 			Drawer.drawSprite(playerSpr,96,32);
 			Drawer.drawSprite(playerSpr,128,32);

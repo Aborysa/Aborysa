@@ -15,6 +15,7 @@ public class Drawer {
 	
 	
 	public static void draw(Graphics g){
+		g.setColor(c);
 		Screen.draw(g);
 	}
 	public static void drawSprite(USpriteSheat sheat,int index,int layerIndex,float x, float y){
@@ -30,7 +31,7 @@ public class Drawer {
 		draw(g);
 	}
 	public static void setColor(float r, float g, float b, float a){
-		c.setColor(r, g, b, a);
+		c = new Color(r,g,b,a);
 	}
 	public Color getColor(){
 		return c;

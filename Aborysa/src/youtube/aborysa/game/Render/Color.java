@@ -1,6 +1,6 @@
 package youtube.aborysa.game.Render;
 
-public class Color {
+public class Color{
 	float r,g,b,a;
 	public Color(float r, float g, float b, float a){
 		this.r = (r);

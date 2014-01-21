@@ -71,6 +71,7 @@ public class Screen{
 			isRunning = !(Display.isCloseRequested());
 			glClear(GL_COLOR_BUFFER_BIT);
 			for(Graphics i : gCompList) {	
+				setColor(i.getColor());
 				i.draw();
 			}
 			setColor(1f,0f,0f,1f);
@@ -170,10 +171,18 @@ public class Screen{
 	protected static void draw(Graphics g){
 		gCompList.add(g);
 	}
-	protected static void setColor(float r, float g, float b,float a){
-		color.setColor(r, g, b, a);
+	protected static void setColor(Color c){
+		if (c != null && !color.equals(c)){
+			color = c;
+			System.out.println(c.getGreen());
+			glColor4f(c.r,c.g,c.b,c.a);
+		}
+	}
+	protected static void setColor(float r,float g, float b, float a){
+		color.setColor(r, g, b, a);;
 		glColor4f(r,g,b,a);
 	}
+	
 	protected static Color getColor(){
 		return color;
 	}

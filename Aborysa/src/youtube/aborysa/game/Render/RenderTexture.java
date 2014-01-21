@@ -2,7 +2,6 @@ package youtube.aborysa.game.Render;
 
 import java.awt.geom.Dimension2D;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
@@ -13,6 +12,7 @@ public class RenderTexture implements Graphics{
 	Texture tex;
 	Vector2f dim;
 	Vector2f part;
+	Color c = null;
 	public RenderTexture(Point2f pos,Texture tex){
 		this.tex = tex;
 		dim = new Vector2f((float) tex.getImageWidth(),(float) tex.getImageHeight(), pos);
@@ -52,32 +52,26 @@ public class RenderTexture implements Graphics{
 
 	@Override
 	public Point2f getPosition() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setPosition(float x, float y) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void setPosition(Point2f point) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setColor4f(float r, float g, float b, float a) {
-		// TODO Auto-generated method stub
-		
+	public void setColor(Color c) {
+		this.c = c;
 	}
 
 	@Override
 	public Color getColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return c;
 	}
 
 	@Override
