@@ -3,6 +3,8 @@ package youtube.aborysa.game.Render;
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
+import youtube.aborysa.game.Math.geometrics.Polygon;
+import youtube.aborysa.game.Math.geometrics.Triangle;
 import youtube.aborysa.game.Math.geometrics.Vector2f;
 import youtube.aborysa.game.Tiles.SheatSprite;
 import youtube.aborysa.game.Tiles.Sprite;
@@ -32,6 +34,10 @@ public class Drawer {
 	}
 	public static void drawPolygon(){
 		
+	}
+	public static void drawPolygon(Polygon t, Point2f pos){
+		RenderPolygon g = new RenderPolygon(pos,t);
+		draw(g);
 	}
 	public static void setColor(float r, float g, float b, float a){
 		c = new Color(r,g,b,a);

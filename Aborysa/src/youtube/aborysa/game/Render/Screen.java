@@ -68,18 +68,21 @@ public class Screen{
 		//glColor3f(0.8f,0.25f,0.1f);
 			isRunning = !(Display.isCloseRequested());
 			glClear(GL_COLOR_BUFFER_BIT);
+			glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 			for(Graphics i : gCompList) {	
 				setColor(i.getColor());
 				i.draw();
 				i.kill(); // <------ Kind of pointless for now
 			}
-			setColor(1f,0f,0f,1f);
+			setColor(1f,1f,1f,1f);
+			glBlendFunc(GL_ONE,GL_NONE);
 			//Screen.drawImage(0,0,tex);
 			//Screen.drawImagePartStr(0,0,tex.getImageWidth()*2,tex.getImageHeight()*2,0,0,2f,2f,tex);
-			//Screen.drawCircle(200, 200, 128, 64,4);
 			//Screen.drawLine(200,200,328,200,4);
 			//Screen.drawRect(64, 64, 32, 32);
-			Screen.drawPolyTexFan(arrayTest2,arrayTest, tex);
+			//Screen.drawPolyTexFan(arrayTest2,arrayTest, tex);
+			Screen.drawCircle(200, 200, 128, 64,4);
+			
 			setColor(0,0.1f,0.9f,1f);
 			Screen.drawPolygon(arrayTest2);
 			setColor(1f,1f,1f,1f);
@@ -141,6 +144,7 @@ public class Screen{
 		glEnd();
 	}
 	protected static void drawPolyFan(float[][] points) throws ArrayIndexOutOfBoundsException{
+		
 		glBegin(GL_TRIANGLE_FAN);
 		for (int i=0; i < points.length;i++){
 			glVertex2f(points[i][0],points[i][1]);
@@ -173,7 +177,7 @@ public class Screen{
 	protected static void setColor(Color c){
 		if (c != null && !color.equals(c)){
 			color = c;
-			System.out.println(c.getGreen());
+			//System.out.println(c.getGreen());
 			glColor4f(c.r,c.g,c.b,c.a);
 		}
 	}
@@ -186,14 +190,14 @@ public class Screen{
 		return color;
 	}
 	protected static void drawLine(float x, float y, float x2, float y2,float size){
-		glPointSize(size);
+		//glPointSize(size);
 		glBegin(GL_LINES);
 			glVertex2f(x, y);
 			glVertex2f(x2, y2);	
 		glEnd();
 	}
 	protected static void drawCircle(float x, float y, float radius,int verteces,float size){
-		glPointSize(size);
+		//glPointSize(size);
 		glBegin(GL_LINE_LOOP);
 			for(int i=0; i<verteces;i++){
 				glVertex2f(x+(float)(radius*(Math.cos(Math.PI*2*i/verteces))),y+(float)(radius*(Math.sin(Math.PI*2*i/verteces))));

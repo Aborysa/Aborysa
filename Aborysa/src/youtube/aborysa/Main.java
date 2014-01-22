@@ -18,6 +18,7 @@ import youtube.aborysa.game.Tiles.SpriteSheat;
 import youtube.aborysa.game.Tiles.USprite;
 import youtube.aborysa.game.Tiles.USpriteSheat;
 import youtube.aborysa.game.Util.FPSCounter;
+import youtube.aborysa.game.GameObjects.TestGround;
 import youtube.aborysa.game.GameObjects.TestProject;
 import youtube.aborysa.game.Input.KeyHandler;
 import youtube.aborysa.game.Input.KeyListener;
@@ -46,9 +47,22 @@ public class Main implements KeyListener, MouseListener {
 	public Main(){}
 	
 
-	public static void main(String[] args) {	
-		System.out.println();
-		System.exit(0);
+	public static void main(String[] args) {
+		Point2f[] drawingPoints = new Point2f[]{new Point2f(0,0,false),new Point2f(180,-90,false),new Point2f(300,-35,false),
+		new Point2f(300,-35,false),new Point2f(332,-15,false), new Point2f(180,0,false)		
+		
+		};
+		TestGround ground = new TestGround(drawingPoints,drawingPoints);
+		Point2f tPos = new Point2f(0,300,false);
+		Triangle[] tri = ground.getMesh();
+		System.out.println("Size: " + tri.length);
+		for(int i=0; i< tri.length;i++){
+				System.out.println(tri[i].getPoints());
+		}
+		Vector2f vecTest = ground.getSurfaceVector(64, -32);
+		System.out.println("X1: " + vecTest.getX() +", Y1:" + vecTest.getY() + ", X2: " + vecTest.getPos().getX() + ", Y2:" + vecTest.getPos().getY());
+		
+		//System.exit(0);
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		Screen.init(640,480,"TEST");
 		System.out.println(Root);
@@ -74,7 +88,10 @@ public class Main implements KeyListener, MouseListener {
 			KeyHandler.update();
 			MouseHandler.update();
 			//Screen.setColor(1f, 1f, 1f);
-			
+			Drawer.setColor(1f,0,0,1f);
+			for(int i=0; i< tri.length;i++){
+				Drawer.drawPolygon(tri[i], tPos);
+			}
 			Drawer.setColor(1f,1f,1f,1f);
 			Drawer.drawSprite(playerSpr,64,32);
 			Drawer.drawSprite(playerSpr,96,32);
