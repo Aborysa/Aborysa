@@ -18,6 +18,7 @@ public class RenderTexture implements Graphics{
 		this.tex = tex;
 		dim = new Vector2f((float) tex.getImageWidth(),(float) tex.getImageHeight(), pos);
 	}
+	
 	public RenderTexture(Vector2f dimention,Texture tex){
 		this.tex = tex;
 		dim = dimention;

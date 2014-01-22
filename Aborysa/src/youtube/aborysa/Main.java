@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.ARBDrawBuffers;
+import org.lwjgl.opengl.ARBDrawBuffersBlend;
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Render.Drawer;
@@ -45,6 +47,8 @@ public class Main implements KeyListener, MouseListener {
 	
 
 	public static void main(String[] args) {	
+		System.out.println();
+		System.exit(0);
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
 		Screen.init(640,480,"TEST");
 		System.out.println(Root);
@@ -70,8 +74,7 @@ public class Main implements KeyListener, MouseListener {
 			KeyHandler.update();
 			MouseHandler.update();
 			//Screen.setColor(1f, 1f, 1f);
-			Drawer.setColor(1f,0f,0f,1f);
-			Drawer.drawSprite(playerSpr,x,y);
+			
 			Drawer.setColor(1f,1f,1f,1f);
 			Drawer.drawSprite(playerSpr,64,32);
 			Drawer.drawSprite(playerSpr,96,32);
@@ -79,6 +82,7 @@ public class Main implements KeyListener, MouseListener {
 		//	Screen.drawImgStr(100, 100,32,32, t);
 		//	Screen.drawImgStr(164, 100,32,32, t2);
 		//	Screen.drawImgStr(228, 100,128,128, t3);
+			
 			//testSprite.advance();
 		
 			Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTexture()));
@@ -96,7 +100,8 @@ public class Main implements KeyListener, MouseListener {
 					killed.add(i);
 				}
 			}
-
+			Drawer.setColor(1f,1f,1f,0.9f);
+			Drawer.drawSprite(playerSpr,x,y);
 			for(TestProject i : killed){
 				pros.remove(i);
 				killCount++;

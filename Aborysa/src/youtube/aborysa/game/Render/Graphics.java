@@ -2,6 +2,8 @@ package youtube.aborysa.game.Render;
 
 import org.newdawn.slick.opengl.Texture;
 import youtube.aborysa.game.Math.geometrics.*;
+
+
 public interface Graphics {
 	void draw();
 	void setDepth(float d);
