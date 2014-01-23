@@ -14,5 +14,7 @@ public interface Graphics {
 	void setColor(Color c);
 	Color getColor();
 	void kill();
+	void setBlendMode(BlendMode b);
+	BlendMode getBlendMode();
 	public Texture getTex();
 }

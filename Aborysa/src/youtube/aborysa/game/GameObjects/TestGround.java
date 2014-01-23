@@ -9,14 +9,15 @@ public class TestGround {
 	
 	Polygon surface;
 	Triangle[] polygons;
-	public TestGround(Point2f[] drawingPoints,Point2f[] surfacePoints){
-		
+	Point2f pos;
+	public TestGround(Point2f[] drawingPoints,Point2f[] surfacePoints, Point2f pos){
+		this.pos = pos;
 		if(drawingPoints.length % 3 == 0){	
 			polygons = new Triangle[drawingPoints.length/3];
 			for(int i=0; i<(drawingPoints.length/3);i++){
-				polygons[i] = new Triangle(new Point2f[]{drawingPoints[i*3],drawingPoints[i*3+1],drawingPoints[i*3+2]});
+				polygons[i] = new Triangle(new Point2f[]{drawingPoints[i*3],drawingPoints[i*3+1],drawingPoints[i*3+2]}, pos);
 			}
-			surface = new Polygon(surfacePoints);
+			surface = new Polygon(surfacePoints,pos);
 		}
 	}
 	public Polygon getSurface(){
@@ -24,6 +25,9 @@ public class TestGround {
 	}
 	public Triangle[] getMesh(){
 		return polygons;
+	}
+	public Point2f getPos(){
+		return pos;
 	}
 	public Vector2f getSurfaceVector(int x, int y){
 		float dist1=1000, dist2=1000;
@@ -33,7 +37,7 @@ public class TestGround {
 		Vector2f rVector;
 		Point2f[] surfacePoints = surface.getPoints();
 		for(int i=0; i<surfacePoints.length;i++){
-			temp = new Vector2f(surfacePoints[i].getX() - x ,surfacePoints[i].getY(), surfacePoints[i]);
+			temp = new Vector2f(surfacePoints[i].getX() - (x-pos.getX()) ,surfacePoints[i].getY() - (y-pos.getY()), surfacePoints[i]);
 			System.out.println(temp.getLength());
 			if (temp.getLength() < dist1){
 				dist2 = dist1;

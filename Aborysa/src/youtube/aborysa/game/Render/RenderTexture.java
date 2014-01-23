@@ -14,6 +14,7 @@ public class RenderTexture implements Graphics{
 	Vector2f part;
 	Color c = null;
 	boolean killed = false;
+	BlendMode b;
 	public RenderTexture(Point2f pos,Texture tex){
 		this.tex = tex;
 		dim = new Vector2f((float) tex.getImageWidth(),(float) tex.getImageHeight(), pos);
@@ -80,6 +81,14 @@ public class RenderTexture implements Graphics{
 	@Override
 	public void kill() {
 		killed = true;
+	}
+
+	@Override
+	public void setBlendMode(BlendMode b) {
+		this.b = b;
+	}
+	public BlendMode getBlendMode(){
+		return b;
 	}
 	
 	

@@ -10,6 +10,7 @@ public class RenderPolygon implements Graphics{
 	Point2f pos;
 	Color c;
 	Polygon p;
+	BlendMode b;
 	public RenderPolygon(Point2f pos, Polygon p){
 		this.p = p;
 		this.pos = pos;
@@ -71,6 +72,13 @@ public class RenderPolygon implements Graphics{
 	@Override
 	public Texture getTex() {
 		return null;
+	}
+	@Override
+	public void setBlendMode(BlendMode b) {
+		this.b = b;
+	}
+	public BlendMode getBlendMode(){
+		return b;
 	}
 
 }

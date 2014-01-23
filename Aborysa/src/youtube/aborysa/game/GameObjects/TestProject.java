@@ -22,7 +22,7 @@ public class TestProject {
 	}
 	public void update(){
 		pos.setCords(speed.getX()+pos.getX(), speed.getY() + pos.getY());
-		Drawer.drawSprite(spr,pos.getX(),pos.getY());
+		Drawer.drawSprite(spr,pos);
 		if ((pos.getX() > 640)||(pos.getX() < 0)||(pos.getY()<0)||(pos.getY() > 480) ){
 			killed = true;
 		} 

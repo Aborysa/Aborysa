@@ -9,6 +9,7 @@ import org.lwjgl.opengl.ARBDrawBuffers;
 import org.lwjgl.opengl.ARBDrawBuffersBlend;
 import org.newdawn.slick.opengl.Texture;
 
+import youtube.aborysa.game.Render.BlendMode;
 import youtube.aborysa.game.Render.Drawer;
 import youtube.aborysa.game.Render.RenderTexture;
 import youtube.aborysa.game.Render.Screen;
@@ -31,8 +32,7 @@ public class Main implements KeyListener, MouseListener {
 	static boolean up = false;
 	static boolean down = false;
 	static boolean right = false;
-	static float x = 0;
-	static float y = 0;
+	static Point2f pos = new Point2f(0,0,false);
 	static Texture tex;
 	static ArrayList<TestProject> pros = new ArrayList<TestProject>();
 	static ArrayList<TestProject> killed = new ArrayList<TestProject>();
@@ -52,8 +52,9 @@ public class Main implements KeyListener, MouseListener {
 		new Point2f(300,-35,false),new Point2f(332,-15,false), new Point2f(180,0,false)		
 		
 		};
-		TestGround ground = new TestGround(drawingPoints,drawingPoints);
-		Point2f tPos = new Point2f(0,300,false);
+
+		//Point2f tPos = new Point2f(0,300,false);
+		TestGround ground = new TestGround(drawingPoints,drawingPoints,pos);
 		Triangle[] tri = ground.getMesh();
 		System.out.println("Size: " + tri.length);
 		for(int i=0; i< tri.length;i++){
@@ -87,15 +88,11 @@ public class Main implements KeyListener, MouseListener {
 			
 			KeyHandler.update();
 			MouseHandler.update();
+
 			//Screen.setColor(1f, 1f, 1f);
-			Drawer.setColor(1f,0,0,1f);
-			for(int i=0; i< tri.length;i++){
-				Drawer.drawPolygon(tri[i], tPos);
-			}
-			Drawer.setColor(1f,1f,1f,1f);
-			Drawer.drawSprite(playerSpr,64,32);
-			Drawer.drawSprite(playerSpr,96,32);
-			Drawer.drawSprite(playerSpr,128,32);
+			Drawer.drawSprite(playerSpr,new Point2f(64,32,false));
+			Drawer.drawSprite(playerSpr,new Point2f(96,32,false));
+			Drawer.drawSprite(playerSpr,new Point2f(128,32,false));
 		//	Screen.drawImgStr(100, 100,32,32, t);
 		//	Screen.drawImgStr(164, 100,32,32, t2);
 		//	Screen.drawImgStr(228, 100,128,128, t3);
@@ -118,7 +115,15 @@ public class Main implements KeyListener, MouseListener {
 				}
 			}
 			Drawer.setColor(1f,1f,1f,0.9f);
-			Drawer.drawSprite(playerSpr,x,y);
+			Drawer.setColor(1f,0,0,1f);
+			Drawer.setBlendMode(BlendMode.BLEND_ONE);
+			Drawer.drawFillRec(new Vector2f(64,64,pos));
+			for(int i=0; i< tri.length;i++){
+				Drawer.drawPolygon(tri[i]);
+			}
+			Drawer.setBlendMode(BlendMode.BLEND_ALPHA);
+			Drawer.setColor(1f,1f,1f,1f);
+			Drawer.drawSprite(playerSpr,pos);
 			for(TestProject i : killed){
 				pros.remove(i);
 				killCount++;
@@ -126,16 +131,16 @@ public class Main implements KeyListener, MouseListener {
 			killed.clear();
 			killCount = 0;
 			if(right){
-				x+=3;			
+				pos.setCords(pos.getX()+3,pos.getY());			
 			}
 			if(left){
-				x-=3;
+				pos.setCords(pos.getX()-3,pos.getY());
 			}
 			if(up){
-				y-=3;
+				pos.setCords(pos.getX(),pos.getY()-3);
 			}
 			if(down){
-				y+=3;
+				pos.setCords(pos.getX(),pos.getY()+3);
 			}
 			//Screen.drawImageStr(228+64, 100,128,128, t3);
 			//	System.out.println(KeyHandler.getKey()); 
@@ -180,6 +185,7 @@ public class Main implements KeyListener, MouseListener {
 		if(keyCode == Keyboard.KEY_SPACE){
 			Main.testSprite.advance();
 			Main.testSprite2.advance();
+			
 		}
 	}
 
@@ -201,13 +207,13 @@ public class Main implements KeyListener, MouseListener {
 	@Override
 	public void mouseClick(float x, float y, int code) {
 		//System.out.println("Mouse pressed: " + x + ", " + y + ", " + code);
-		float dx = x - Main.x;
-		float dy = ((480-y) - Main.y);
+		float dx = x - Main.pos.getX();
+		float dy = ((480-y) - Main.pos.getY());
 		float xV = (float) (dx/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
 		float yV = (float) (dy/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
 		//System.out.println(xV);
 		//System.out.println(yV);
-		pros.add(new TestProject(new Vector2f(xV*6,yV*6, new Point2f(this.x,this.y,false)), Main.playerSpr));
+		pros.add(new TestProject(new Vector2f(xV*6,yV*6, pos), Main.playerSpr));
 	}
 	@Override
 	public void mouseRelease(float x, float y, int code) {

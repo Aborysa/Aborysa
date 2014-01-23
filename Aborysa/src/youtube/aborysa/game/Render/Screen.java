@@ -23,14 +23,12 @@ public class Screen{
 	private static Color color = new Color(1, 1, 1, 1);
 	private static Color backGroundColor = new Color(1,1,1,1);
 	private static Texture tex, lastTex, colorTexture;
-	
+	private static BlendMode cBlendMode = new BlendMode(BlendMode.BLEND_ALPHA);
 	private static ArrayList<Graphics> gCompList = new ArrayList<Graphics>();
 	public static boolean isRunning = false;
 	private static float[][] arrayTest = {{0,0},{1,0},{1f,1f},{0,0},{1,1},{0,1}};
 	private static float[][] arrayTest2 = {{0,0},{90,0},{180,180},{0,0},{180,180},{0,180*1.5f}};
-	/*synchronized static ArrayList<Graphics> getRenderList(){
-		return gCompList;
-	}*/
+	
 	public static void init(int width, int height, String title){
 		isRunning = true;
 		try {
@@ -60,32 +58,27 @@ public class Screen{
 		glLoadIdentity();
 	}
 	private static void pastInit(){
-		tex = loadImage("PNG", "img/Potet_2.png");	
-		colorTexture = loadImage("PNG","img/Cimg.png");
-		setColor(1,1,1,1);
+	
+	}
+	protected static void setBlendMode(BlendMode b){
+		if ((!cBlendMode.equals(b)) && (b !=null)){
+			cBlendMode = b;
+			int[] bModes = cBlendMode.getBlendMode();
+			glBlendFunc(bModes[0],bModes[1]);
+			
+		}
+		
+		
 	}
 	public static void run(){
-		//glColor3f(0.8f,0.25f,0.1f);
 			isRunning = !(Display.isCloseRequested());
 			glClear(GL_COLOR_BUFFER_BIT);
-			glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 			for(Graphics i : gCompList) {	
 				setColor(i.getColor());
+				setBlendMode(i.getBlendMode());
 				i.draw();
 				i.kill(); // <------ Kind of pointless for now
 			}
-			setColor(1f,1f,1f,1f);
-			glBlendFunc(GL_ONE,GL_NONE);
-			//Screen.drawImage(0,0,tex);
-			//Screen.drawImagePartStr(0,0,tex.getImageWidth()*2,tex.getImageHeight()*2,0,0,2f,2f,tex);
-			//Screen.drawLine(200,200,328,200,4);
-			//Screen.drawRect(64, 64, 32, 32);
-			//Screen.drawPolyTexFan(arrayTest2,arrayTest, tex);
-			Screen.drawCircle(200, 200, 128, 64,4);
-			
-			setColor(0,0.1f,0.9f,1f);
-			Screen.drawPolygon(arrayTest2);
-			setColor(1f,1f,1f,1f);
 			gCompList.clear();
 			Display.sync(FPS);
 			Display.update();
