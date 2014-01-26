@@ -25,11 +25,16 @@ public class Drawer {
 		draw(g);
 	}
 	public static void drawSprite(USprite spr, Point2f pos){
-		drawSpriteStr(spr, pos, spr.getTexture().getImageWidth(), spr.getSheat().getTexture().getImageHeight());
+		if(spr.isSheatSprite()){
+			drawSpriteStr(spr, pos,spr.getSheat().getTileWidth(), spr.getSheat().getTileHeight());			
+		}else{
+			drawSpriteStr(spr, pos, spr.getTexture().getImageWidth(), spr.getTexture().getImageHeight());	
+		}
+		
 	}
 	public static void drawSpriteStr(USprite spr, Point2f pos, float w, float h){
 		Texture tex = spr.getTexture();
-		Graphics g = new RenderTexture(new Vector2f(w,h,pos),new Vector2f(1,1,new Point2f(0,0,false)), tex); 
+		Graphics g = new RenderTexture(new Vector2f(w,h,pos),spr.getTexCords(), tex); 
 		draw(g);
 	}
 

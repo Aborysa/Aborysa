@@ -102,7 +102,11 @@ public class Main implements KeyListener, MouseListener {
 			Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTexture()));
 			for(int i=0; i<6;i++){
 				for(int k=0;k<3;k++)
-					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTexture()));
+				{
+					//Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite2.getTexCords(), sTest.getTexture()));
+					//Drawer.drawSprite(testSprite2, new Point2f(364 + k*32,300 + i*32,false));
+					Drawer.drawSprite(sTest, testSprite2.getImageIndex() + testSprite2.getSindex(), 0, 364 +  k*32, 300 + i*32);
+				}
 				for(int k=3;k<6;k++)
 					Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(364 + k*32,300 + i*32,false)),testSprite3.getTexCords(), sTest.getTexture()));
 			}

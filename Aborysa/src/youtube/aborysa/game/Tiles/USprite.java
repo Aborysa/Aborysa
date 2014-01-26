@@ -58,6 +58,9 @@ public class USprite implements Cloneable{
 		else
 			return sheat.getTexture(0);
 	}
+	public boolean isSheatSprite(){
+		return SheatSprite;
+	}
 	public Vector2f getTexCords(){
 		if (SheatSprite){
 			return sheat.getTexCords(imageIndex+sIndex);
