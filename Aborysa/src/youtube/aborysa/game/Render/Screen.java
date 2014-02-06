@@ -1,19 +1,24 @@
 package youtube.aborysa.game.Render;
 
 
+import java.awt.Canvas;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+
+import youtube.aborysa.Main;
 import youtube.aborysa.game.Math.geometrics.Point2f;
+import youtube.aborysa.game.Render.Texture.FrameBuffer;
 import static org.lwjgl.opengl.GL11.*;
 
 
@@ -28,8 +33,9 @@ public class Screen{
 	public static boolean isRunning = false;
 	private static float[][] arrayTest = {{0,0},{1,0},{1f,1f},{0,0},{1,1},{0,1}};
 	private static float[][] arrayTest2 = {{0,0},{90,0},{180,180},{0,0},{180,180},{0,180*1.5f}};
-	
-	public static void init(int width, int height, String title){
+	private static FrameBuffer FrameTest;
+	private static FrameBuffer FrameTest2;
+	public static void init(int width, int height, String title, Canvas canvas){
 		isRunning = true;
 		try {
 			WIDTH = width;
@@ -37,6 +43,7 @@ public class Screen{
 			Display.setDisplayMode(new DisplayMode(width,height));
 			Display.setTitle(title);
 			Display.setVSyncEnabled(true);
+			Display.setParent(canvas);
 			Display.create();
 			initGL();
 			pastInit();
@@ -45,7 +52,14 @@ public class Screen{
 		}
 		
 	}
-	
+	public static void setCanvas(Canvas canvas){
+		try {
+			Display.setParent(canvas);
+			Display.update();
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+		}
+	}
 	private static void initGL(){
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -58,7 +72,12 @@ public class Screen{
 		glLoadIdentity();
 	}
 	private static void pastInit(){
-	
+		tex = Screen.loadImage("PNG","img/test.png");
+		FrameTest = new FrameBuffer(64,64);
+		FrameTest2 = new FrameBuffer(64,64);
+	//	tex = loadImage("PNG", Main.Root + "/../../img/test.png");
+	//	GL11.glDrawBuffer(GL11.GL_NONE);
+	//	GL11.glReadBuffer(GL11.GL_NONE);
 	}
 	protected static void setBlendMode(BlendMode b){
 		if ((!cBlendMode.equals(b)) && (b !=null)){
@@ -79,6 +98,16 @@ public class Screen{
 				i.draw();
 				i.kill(); // <------ Kind of pointless for now
 			}
+//			draw(new RenderTexture(new Point2f(0,0,false), FrameTest.getTexture());
+			FrameTest.bindBuffer();
+			//draw(new RenderTexture(new Point2f(0,0,false), tex));
+			FrameTest.unbindBuffer();
+			//for(int i = 0; i< FrameTest.getTexture().getBuffer().capacity();i++){
+			//	System.out.println(FrameTest.getTexture().getBuffer().get(i));
+			//}
+			Screen.drawImagePartStr(0, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest.getTexture());
+			//Screen.drawImagePartStr(64, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest2.getTexture());
+			
 			gCompList.clear();
 			Display.sync(FPS);
 			Display.update();
@@ -87,7 +116,22 @@ public class Screen{
 	public static void cleanUp(){	
 		Display.destroy();
 	}
-	public static Texture loadImage(String type, String source){
+	static void drawImagePartStr(float x, float y, float width, float height, float xStart, float yStart, float xEnd, float yEnd, youtube.aborysa.game.Render.Texture.Texture tex){
+	//	if (!tex.equals(Screen.lastTex)){
+			tex.bindTexture();
+			//Screen.lastTex = tex;
+	//	}	
+		glBegin(GL_QUADS);
+			glTexCoord2f(xEnd,yStart);
+			glVertex2f(width+x,y);
+			glTexCoord2f(xStart,yStart);
+			glVertex2f(x, y);
+			glTexCoord2f(xStart,yEnd);
+			glVertex2f(x,height+y);
+			glTexCoord2f(xEnd,yEnd);
+			glVertex2f(width+x,height+y);
+		glEnd();
+	}	public static Texture loadImage(String type, String source){
 		Texture temp = null;
 		try {
 			temp = TextureLoader.getTexture(type, new FileInputStream(source));
@@ -188,6 +232,11 @@ public class Screen{
 			glVertex2f(x, y);
 			glVertex2f(x2, y2);	
 		glEnd();
+	}
+	protected static int genFBO(){
+		
+		
+		return 0;
 	}
 	protected static void drawCircle(float x, float y, float radius,int verteces,float size){
 		//glPointSize(size);

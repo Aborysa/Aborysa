@@ -1,8 +1,12 @@
 package youtube.aborysa;
 
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.ARBDrawBuffers;
@@ -65,7 +69,21 @@ public class Main implements KeyListener, MouseListener {
 		
 		//System.exit(0);
 		System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
-		Screen.init(640,480,"TEST");
+		//Canvas test = new Canvas();
+		//Canvas test2 = new Canvas();
+		//JFrame testFrame = new JFrame();
+		//JFrame testFrame2 = new JFrame();
+		
+/*		
+		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		testFrame.add(test);
+		testFrame.setPreferredSize(new Dimension(640,480));
+		testFrame.setVisible(true);
+		test.setVisible(true);
+	*/
+		Screen.init(640,480,"TEST",null);
+		
+		//Screen.setCanvas(test);
 		System.out.println(Root);
 		//System.exit(0);
 		KeyHandler.init();
@@ -90,15 +108,16 @@ public class Main implements KeyListener, MouseListener {
 			MouseHandler.update();
 
 			//Screen.setColor(1f, 1f, 1f);
+		//	Screen.setCanvas(test);
 			Drawer.drawSprite(playerSpr,new Point2f(64,32,false));
 			Drawer.drawSprite(playerSpr,new Point2f(96,32,false));
 			Drawer.drawSprite(playerSpr,new Point2f(128,32,false));
 		//	Screen.drawImgStr(100, 100,32,32, t);
 		//	Screen.drawImgStr(164, 100,32,32, t2);
 		//	Screen.drawImgStr(228, 100,128,128, t3);
-			
+		//	Screen.run();
 			//testSprite.advance();
-		
+		//	Screen.setCanvas(test2);
 			Drawer.draw(new RenderTexture(new Vector2f(32,32,new Point2f(300,300,false)),testSprite.getTexCords(), sTest.getTexture()));
 			for(int i=0; i<6;i++){
 				for(int k=0;k<3;k++)
@@ -217,7 +236,7 @@ public class Main implements KeyListener, MouseListener {
 		float yV = (float) (dy/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
 		//System.out.println(xV);
 		//System.out.println(yV);
-		pros.add(new TestProject(new Vector2f(xV*6,yV*6, pos), Main.playerSpr));
+		pros.add(new TestProject(new Vector2f(xV*6,yV*6, pos.clone()), Main.playerSpr));
 	}
 	@Override
 	public void mouseRelease(float x, float y, int code) {
