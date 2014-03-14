@@ -1,5 +1,7 @@
 package youtube.aborysa.game.Render;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.opengl.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
@@ -14,7 +16,7 @@ import youtube.aborysa.game.Tiles.USpriteSheat;
 public class Drawer {
 	private static Color c = new Color(1,1,1,1);
 	private static BlendMode b = new BlendMode(BlendMode.BLEND_ALPHA);
-	
+	private static ArrayList<Graphics> g = new ArrayList<Graphics>();
 	public static void draw(Graphics g){
 		g.setColor(c);
 		g.setBlendMode(b);
@@ -22,6 +24,7 @@ public class Drawer {
 	}
 	public static void drawSprite(USpriteSheat sheat,int index,int layerIndex,float x, float y){
 		Graphics g = new RenderTexture(new Vector2f(sheat.getTileWidth(),sheat.getTileHeight(),new Point2f(x,y,false)),sheat.getTexCords(index,layerIndex), sheat.getTexture(layerIndex));
+		//Drawer.g.add(g);
 		draw(g);
 	}
 	public static void drawSprite(USprite spr, Point2f pos){

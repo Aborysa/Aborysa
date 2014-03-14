@@ -12,6 +12,7 @@ import org.newdawn.slick.opengl.PNGDecoder;
 import org.newdawn.slick.opengl.PNGDecoder.Format;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL30;
 public class TextureLoader {
 	
 	static ArrayList<Integer> textureIds = new ArrayList<Integer>();
@@ -47,7 +48,8 @@ public class TextureLoader {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D,texId);
 		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, width,buffer.capacity()/(4*width), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);	 
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width,buffer.capacity()/(4*width), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);	 
+		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
 		textureIds.add(texId);
 		return texId;
 	}
@@ -60,7 +62,10 @@ public class TextureLoader {
 		return new Texture(texId,pBuffer,width,height);
 	}
 	public static void bindTexture(int textureId){
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId);
+		//GL11.glPopMatrix();
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId);	
+		//GL11.glPushMatrix();
 	}
 	public static void deleteTexture(int textureId){
 		for(Integer i : textureIds){

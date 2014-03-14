@@ -19,6 +19,8 @@ import org.newdawn.slick.opengl.TextureLoader;
 import youtube.aborysa.Main;
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Render.Texture.FrameBuffer;
+
+
 import static org.lwjgl.opengl.GL11.*;
 
 
@@ -35,6 +37,7 @@ public class Screen{
 	private static float[][] arrayTest2 = {{0,0},{90,0},{180,180},{0,0},{180,180},{0,180*1.5f}};
 	private static FrameBuffer FrameTest;
 	private static FrameBuffer FrameTest2;
+	private static youtube.aborysa.game.Render.Texture.Texture texTest;
 	public static void init(int width, int height, String title, Canvas canvas){
 		isRunning = true;
 		try {
@@ -52,6 +55,7 @@ public class Screen{
 		}
 		
 	}
+	
 	public static void setCanvas(Canvas canvas){
 		try {
 			Display.setParent(canvas);
@@ -75,7 +79,9 @@ public class Screen{
 		tex = Screen.loadImage("PNG","img/test.png");
 		FrameTest = new FrameBuffer(64,64);
 		FrameTest2 = new FrameBuffer(64,64);
-	//	tex = loadImage("PNG", Main.Root + "/../../img/test.png");
+		texTest = youtube.aborysa.game.Render.Texture.TextureLoader.loadTexture("img/Potet.png");
+		System.out.println(new File("img/test.png").getAbsolutePath());
+		//	tex = loadImage("PNG", Main.Root + "/../../img/test.png");
 	//	GL11.glDrawBuffer(GL11.GL_NONE);
 	//	GL11.glReadBuffer(GL11.GL_NONE);
 	}
@@ -100,12 +106,29 @@ public class Screen{
 			}
 //			draw(new RenderTexture(new Point2f(0,0,false), FrameTest.getTexture());
 			FrameTest.bindBuffer();
-			//draw(new RenderTexture(new Point2f(0,0,false), tex));
+			draw(new RenderTexture(new Point2f(0,0,false), tex));
 			FrameTest.unbindBuffer();
 			//for(int i = 0; i< FrameTest.getTexture().getBuffer().capacity();i++){
 			//	System.out.println(FrameTest.getTexture().getBuffer().get(i));
 			//}
-			Screen.drawImagePartStr(0, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest.getTexture());
+			texTest.bindTexture();
+			//FrameTest.getTexture().bindTexture();
+			//tex.bind();
+			setColor(new Color(1, 1, 1, 1));
+			glBegin(GL_QUADS);
+				glTexCoord2f(0, 0);
+				glVertex2f(0, 0);
+				glTexCoord2f(1, 0);
+				glVertex2f(32, 0);
+				glTexCoord2f(1, 1);
+				glVertex2f(32, 32);
+				glTexCoord2f(0, 1);
+				glVertex2f(0, 32);
+			glEnd();
+			lastTex = null;
+			//tex.bind();
+			//lastTex.bind();
+			//Screen.drawImagePartStr(0, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest.getTexture());
 			//Screen.drawImagePartStr(64, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest2.getTexture());
 			
 			gCompList.clear();
@@ -117,7 +140,7 @@ public class Screen{
 		Display.destroy();
 	}
 	static void drawImagePartStr(float x, float y, float width, float height, float xStart, float yStart, float xEnd, float yEnd, youtube.aborysa.game.Render.Texture.Texture tex){
-	//	if (!tex.equals(Screen.lastTex)){
+		//if (!tex.equals(Screen.lastTex)){
 			tex.bindTexture();
 			//Screen.lastTex = tex;
 	//	}	
