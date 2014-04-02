@@ -63,6 +63,9 @@ public class Vector2f implements Cloneable{
 		rad = (float) Math.acos(getScalar(vec1,vec2)/(vec1.getLength()*vec2.getLength()));
 		return rad;
 	}
+	public String toString(){
+		return "[" + getX() + "," + getY() + "]";
+	}
 	public Vector2f clone(){
 		Vector2f clone;
 		try {

@@ -40,14 +40,15 @@ public class USpriteSheat {
 		return textures[0];
 	}
 	public Vector2f getTexCords(int index){
-		Texture tex = textures[0];
-		int xIndex = (int)(index%(tex.getImageWidth() / (float)(TILE_WIDTH)));
+		/*int xIndex = (int)(index%(tex.getImageWidth() / (float)(TILE_WIDTH)));
 		int yIndex = (int) Math.floor(index / ((tex.getImageWidth() / (float)(TILE_WIDTH))));
 		Point2f  sTemp = new Point2f(((xIndex*(float)(TILE_WIDTH)) / (tex.getImageWidth())),(float)(yIndex*(float)(TILE_WIDTH) /tex.getImageHeight()),false);
-		Vector2f tempVec = new Vector2f(texCords[0].getX()+sTemp.getX(),texCords[0].getY()+sTemp.getY(),sTemp);
-		return tempVec;	
+		Vector2f tempVec = new Vector2f(texCords[0].getX()+sTemp.getX(),texCords[0].getY()+sTemp.getY(),sTemp);*/
+		return getTexCords(index,0);
+		
 	}
 	public Vector2f getTexCords(int index, int sheatIndex){
+		//Need to change, OpenGL is 
 		Texture tex = textures[sheatIndex];
 		int xIndex = (int)(index%(tex.getImageWidth() / (float)(TILE_WIDTH)));
 		int yIndex = (int) Math.floor(index / ((tex.getImageWidth() / (float)(TILE_WIDTH))));

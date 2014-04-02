@@ -45,7 +45,7 @@ public class Screen{
 			HEIGHT = height;
 			Display.setDisplayMode(new DisplayMode(width,height));
 			Display.setTitle(title);
-			Display.setVSyncEnabled(true);
+			//Display.setVSyncEnabled(true);
 			Display.setParent(canvas);
 			Display.create();
 			initGL();
@@ -71,7 +71,8 @@ public class Screen{
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glOrtho(0, WIDTH, HEIGHT, 0, -1, 1);
+		glOrtho(0, WIDTH, HEIGHT, 0, -100, 100);
+		glDepthFunc(GL_DEPTH_TEST);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
@@ -105,34 +106,22 @@ public class Screen{
 				i.kill(); // <------ Kind of pointless for now
 			}
 //			draw(new RenderTexture(new Point2f(0,0,false), FrameTest.getTexture());
-			FrameTest.bindBuffer();
-			draw(new RenderTexture(new Point2f(0,0,false), tex));
-			FrameTest.unbindBuffer();
+			//FrameTest.bindBuffer();
+			//draw(new RenderTexture(new Point2f(0,0,false), tex));
+			//FrameTest.unbindBuffer();
 			//for(int i = 0; i< FrameTest.getTexture().getBuffer().capacity();i++){
 			//	System.out.println(FrameTest.getTexture().getBuffer().get(i));
 			//}
-			texTest.bindTexture();
+			//texTest.bindTexture();
 			//FrameTest.getTexture().bindTexture();
 			//tex.bind();
-			setColor(new Color(1, 1, 1, 1));
-			glBegin(GL_QUADS);
-				glTexCoord2f(0, 0);
-				glVertex2f(0, 0);
-				glTexCoord2f(1, 0);
-				glVertex2f(32, 0);
-				glTexCoord2f(1, 1);
-				glVertex2f(32, 32);
-				glTexCoord2f(0, 1);
-				glVertex2f(0, 32);
-			glEnd();
-			lastTex = null;
 			//tex.bind();
 			//lastTex.bind();
 			//Screen.drawImagePartStr(0, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest.getTexture());
 			//Screen.drawImagePartStr(64, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest2.getTexture());
 			
 			gCompList.clear();
-			Display.sync(FPS);
+			//Display.sync(FPS);
 			Display.update();
 	}
 	
@@ -176,13 +165,13 @@ public class Screen{
 		}	
 		glBegin(GL_QUADS);
 			glTexCoord2f(xEnd,yStart);
-			glVertex2f(width+x,y);
+			glVertex3f(width+x,y,0);
 			glTexCoord2f(xStart,yStart);
-			glVertex2f(x, y);
+			glVertex3f(x, y,0);
 			glTexCoord2f(xStart,yEnd);
-			glVertex2f(x,height+y);
+			glVertex3f(x,height+y,0);
 			glTexCoord2f(xEnd,yEnd);
-			glVertex2f(width+x,height+y);
+			glVertex3f(width+x,height+y,0);
 		glEnd();
 	}
 	protected static void drawImagePart(float x, float y, float xStart, float yStart, float xEnd, float yEnd,Texture tex){
@@ -273,11 +262,14 @@ public class Screen{
 		drawImgStr(x,y,width,height,colorTexture);
 	}*/
 	protected static void drawRect(float x, float y, float width, float height){
+		glDisable(GL_TEXTURE_2D);
+		//glBindTexture(GL_TEXTURE_2D, 0);
 		glBegin(GL_QUADS);
 			glVertex2f(x,y);
 			glVertex2f(x+width,y);
 			glVertex2f(x+width,y+height);
 			glVertex2f(x,y+height);
 		glEnd();
+		glEnable(GL_TEXTURE_2D);
 	}
 }

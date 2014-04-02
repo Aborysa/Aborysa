@@ -119,6 +119,9 @@ public class Main implements KeyListener, MouseListener {
 			Drawer.drawSprite(playerSpr,new Point2f(64,32,false));
 			Drawer.drawSprite(playerSpr,new Point2f(96,32,false));
 			Drawer.drawSprite(playerSpr,new Point2f(128,32,false));
+			Drawer.setColor(1f,0,0,1f);
+			Drawer.drawFillRec(new Vector2f(32,32, new Point2f(100,100,false)));
+			Drawer.setColor(1f,1f,1f,1f);
 		//	Screen.drawImgStr(100, 100,32,32, t);
 		//	Screen.drawImgStr(164, 100,32,32, t2);
 		//	Screen.drawImgStr(228, 100,128,128, t3);
