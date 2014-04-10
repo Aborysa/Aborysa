@@ -51,7 +51,9 @@ public class Main implements KeyListener, MouseListener {
 	static USprite testSprite2;
 	static USprite testSprite3;
 	static USprite playerSpr;
-	public Main(){}
+	public Main(){
+		//Pointless constructor so that it is possible to init this shit
+	}
 	
 
 	public static void main(String[] args) {
