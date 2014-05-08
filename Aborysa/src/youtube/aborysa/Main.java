@@ -3,6 +3,7 @@ package youtube.aborysa;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -13,8 +14,8 @@ import javax.swing.JFrame;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.ARBDrawBuffers;
 import org.lwjgl.opengl.ARBDrawBuffersBlend;
-import org.newdawn.slick.opengl.Texture;
 
+import youtube.aborysa.game.Render.Texture.*;
 import youtube.aborysa.game.Render.BlendMode;
 import youtube.aborysa.game.Render.Drawer;
 import youtube.aborysa.game.Render.RenderTexture;
@@ -45,6 +46,7 @@ public class Main implements KeyListener, MouseListener {
 	static int killCount = 0;
 	public final static String Root = Main.class.getResource("../../").getPath();
 	public final static URL testRoot = Main.class.getResource("../../natives");
+	public static String absRoot;
 	static Texture sheat1;
 	static USpriteSheat sTest;
 	static USprite testSprite;
@@ -57,13 +59,20 @@ public class Main implements KeyListener, MouseListener {
 	
 
 	public static void main(String[] args) {
+		try {
+			absRoot = new File(Root + "../").getCanonicalPath();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(absRoot);
+		System.exit(0);
 		System.out.println(Root);
 		System.out.println(testRoot);
 		//System.out.println(new File("Aborysa.jar!/img/").getAbsolutePath());
 		//System.exit(0);
-		Point2f[] drawingPoints = new Point2f[]{new Point2f(0,0,false),new Point2f(180,-90,false),new Point2f(300,-35,false),
-		new Point2f(300,-35,false),new Point2f(332,-15,false), new Point2f(180,0,false)		
-		
+		Point2f[] drawingPoints = new Point2f[]{
+				new Point2f(0,0,false),new Point2f(180,-90,false),new Point2f(300,-35,false),
+				new Point2f(300,-35,false),new Point2f(332,-15,false), new Point2f(180,0,false)		
 		};
 
 		//Point2f tPos = new Point2f(0,300,false);
@@ -77,7 +86,7 @@ public class Main implements KeyListener, MouseListener {
 		System.out.println("X1: " + vecTest.getX() +", Y1:" + vecTest.getY() + ", X2: " + vecTest.getPos().getX() + ", Y2:" + vecTest.getPos().getY());
 		
 		//System.exit(0);
-		System.setProperty("org.lwjgl.librarypath",(testRoot.getFile()));
+		System.setProperty("org.lwjgl.librarypath",new File("./natives").getAbsolutePath());
 		//Canvas test = new Canvas();
 		//Canvas test2 = new Canvas();
 		//JFrame testFrame = new JFrame();
@@ -99,11 +108,11 @@ public class Main implements KeyListener, MouseListener {
 		KeyHandler.addKeyListener(new Main());
 		MouseHandler.init();
 		MouseHandler.addMouseListener(new Main());
-		tex = Screen.loadImage("PNG",  Root + "img/test.png");
-		Texture t = Screen.loadImage("PNG",Root +"img/Potet.png");
-		Texture t2 = Screen.loadImage("PNG", Root + "img/Potet_2.png");
-		Texture t3 = Screen.loadImage("PNG", Root + "img/Potet_3.png");
-		sheat1 = Screen.loadImage("PNG", Root + "img/SpriteSheet.png");
+		tex = Screen.loadImage("./img/test.png");
+		Texture t = Screen.loadImage("./img/Potet.png");
+		Texture t2 = Screen.loadImage("./img/Potet_2.png");
+		Texture t3 = Screen.loadImage("./img/Potet_3.png");
+		sheat1 = Screen.loadImage("./img/SpriteSheet.png");
 		playerSpr = new USprite(tex);
 		sTest = new USpriteSheat(sheat1,32,32);
 		testSprite = new USprite(sTest,0,2);

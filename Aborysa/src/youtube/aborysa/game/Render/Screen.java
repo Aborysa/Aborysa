@@ -13,8 +13,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
+import youtube.aborysa.game.Render.Texture.*;
 
 import youtube.aborysa.Main;
 import youtube.aborysa.game.Math.geometrics.Point2f;
@@ -29,7 +28,7 @@ public class Screen{
 	private static int WIDTH, HEIGHT;
 	private static Color color = new Color(1, 1, 1, 1);
 	private static Color backGroundColor = new Color(1,1,1,1);
-	private static Texture tex, lastTex, colorTexture;
+	private static Texture tex, lastTex;
 	private static BlendMode cBlendMode = new BlendMode(BlendMode.BLEND_ALPHA);
 	private static ArrayList<Graphics> gCompList = new ArrayList<Graphics>();
 	public static boolean isRunning = false;
@@ -77,15 +76,14 @@ public class Screen{
 		glLoadIdentity();
 	}
 	private static void pastInit(){
-		tex = Screen.loadImage("PNG","img/test.png");
+		/*tex = Screen.loadImage("img/test.png");
 		FrameTest = new FrameBuffer(64,64);
 		FrameTest2 = new FrameBuffer(64,64);
 		texTest = youtube.aborysa.game.Render.Texture.TextureLoader.loadTexture("img/Potet.png");
 		System.out.println(new File("img/test.png").getAbsolutePath());
-		//	tex = loadImage("PNG", Main.Root + "/../../img/test.png");
-	//	GL11.glDrawBuffer(GL11.GL_NONE);
-	//	GL11.glReadBuffer(GL11.GL_NONE);
+		 */
 	}
+	// Will be removed and replaced by shader programs
 	protected static void setBlendMode(BlendMode b){
 		if ((!cBlendMode.equals(b)) && (b !=null)){
 			cBlendMode = b;
@@ -104,65 +102,39 @@ public class Screen{
 				setBlendMode(i.getBlendMode());
 				i.draw();
 				i.kill(); // <------ Kind of pointless for now
-			}
-//			draw(new RenderTexture(new Point2f(0,0,false), FrameTest.getTexture());
-			//FrameTest.bindBuffer();
-			//draw(new RenderTexture(new Point2f(0,0,false), tex));
-			//FrameTest.unbindBuffer();
-			//for(int i = 0; i< FrameTest.getTexture().getBuffer().capacity();i++){
-			//	System.out.println(FrameTest.getTexture().getBuffer().get(i));
-			//}
-			//texTest.bindTexture();
-			//FrameTest.getTexture().bindTexture();
-			//tex.bind();
-			//tex.bind();
-			//lastTex.bind();
-			//Screen.drawImagePartStr(0, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest.getTexture());
-			//Screen.drawImagePartStr(64, 0,FrameTest.getTexture().getWidth(),FrameTest.getTexture().getHeight(),0,0,1,1, FrameTest2.getTexture());
-			
+			}			
 			gCompList.clear();
-			//Display.sync(FPS);
 			Display.update();
 	}
 	
 	public static void cleanUp(){	
 		Display.destroy();
 	}
-	static void drawImagePartStr(float x, float y, float width, float height, float xStart, float yStart, float xEnd, float yEnd, youtube.aborysa.game.Render.Texture.Texture tex){
-		//if (!tex.equals(Screen.lastTex)){
-			tex.bindTexture();
-			//Screen.lastTex = tex;
-	//	}	
-		glBegin(GL_QUADS);
-			glTexCoord2f(xEnd,yStart);
-			glVertex2f(width+x,y);
-			glTexCoord2f(xStart,yStart);
-			glVertex2f(x, y);
-			glTexCoord2f(xStart,yEnd);
-			glVertex2f(x,height+y);
-			glTexCoord2f(xEnd,yEnd);
-			glVertex2f(width+x,height+y);
-		glEnd();
-	}	public static Texture loadImage(String type, String source){
+	
+	public static Texture loadImage(String source){
 		Texture temp = null;
 		try {
-			temp = TextureLoader.getTexture(type, new FileInputStream(source));
+			temp = TextureLoader.loadTexture(source);
+			//temp = TextureLoader.getTexture(type, new FileInputStream(source));
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		return temp;
 	}
 	static void drawImagePartStr(float x, float y, float width, float height, float xStart, float yStart, float xEnd, float yEnd, Texture tex){
-		if (!tex.equals(Screen.lastTex)){
-			tex.bind();
+		if (tex == null){
+			glDisable(GL_TEXTURE_2D);
+		}
+		else if (!tex.equals(Screen.lastTex)){
+			glEnable(GL_TEXTURE_2D);
+			tex.bindTexture();
 			Screen.lastTex = tex;
-		}	
+		}
+
 		glBegin(GL_QUADS);
 			glTexCoord2f(xEnd,yStart);
 			glVertex3f(width+x,y,0);
@@ -174,15 +146,9 @@ public class Screen{
 			glVertex3f(width+x,height+y,0);
 		glEnd();
 	}
-	protected static void drawImagePart(float x, float y, float xStart, float yStart, float xEnd, float yEnd,Texture tex){
-		drawImagePartStr(x, y, xEnd*tex.getImageWidth(), yEnd*tex.getImageHeight(),xStart, yStart,xEnd, yEnd, tex);
-	}
-	/*protected static void drawImage(float x, float y, Texture tex){
-		drawImgStr(x,y,tex.getImageWidth(),tex.getImageHeight(),tex);
-	}*/
 	protected static void drawPolyTexFan(float[][] points, float[][] texCords,Texture tex) throws ArrayIndexOutOfBoundsException{
 		if (!tex.equals(Screen.lastTex)){
-			tex.bind();
+			tex.bindTexture();
 			Screen.lastTex = tex;
 		}		
 		glBegin(GL_TRIANGLE_FAN);
@@ -214,19 +180,12 @@ public class Screen{
 		}
 		glEnd();
 	}
-	protected static void drawImageStr(float x, float y, float width, float height, Texture tex){
-		drawImagePartStr(x, y, width, height,0, 0,1, 1, tex);
-	}
-/*	public static void drawImgStr(float x,float y, float width , float height, Texture tex){
-		gCompList.add(new RenderTexture(new Point2f(x,y,false),tex)); //TODO: CHANGE THE FUNCTION NAME AND MAKE IT MORE ABSTRACT!!!!!
-	}*/
 	protected static void draw(Graphics g){
 		gCompList.add(g);
 	}
 	protected static void setColor(Color c){
 		if (c != null && !color.equals(c)){
 			color = c;
-			//System.out.println(c.getGreen());
 			glColor4f(c.r,c.g,c.b,c.a);
 		}
 	}
@@ -246,24 +205,17 @@ public class Screen{
 		glEnd();
 	}
 	protected static int genFBO(){
-		
-		
 		return 0;
 	}
 	protected static void drawCircle(float x, float y, float radius,int verteces,float size){
-		//glPointSize(size);
 		glBegin(GL_LINE_LOOP);
 			for(int i=0; i<verteces;i++){
 				glVertex2f(x+(float)(radius*(Math.cos(Math.PI*2*i/verteces))),y+(float)(radius*(Math.sin(Math.PI*2*i/verteces))));
 			}
 		glEnd();
 	}
-	/*public static void drawRect(int x, int y, int width, int height){
-		drawImgStr(x,y,width,height,colorTexture);
-	}*/
 	protected static void drawRect(float x, float y, float width, float height){
 		glDisable(GL_TEXTURE_2D);
-		//glBindTexture(GL_TEXTURE_2D, 0);
 		glBegin(GL_QUADS);
 			glVertex2f(x,y);
 			glVertex2f(x+width,y);

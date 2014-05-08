@@ -1,8 +1,7 @@
 package youtube.aborysa.game.Render;
 
 import java.util.ArrayList;
-
-import org.newdawn.slick.opengl.Texture;
+import youtube.aborysa.game.Render.Texture.*;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Math.geometrics.Polygon;
@@ -31,7 +30,7 @@ public class Drawer {
 		if(spr.isSheatSprite()){
 			drawSpriteStr(spr, pos,spr.getSheat().getTileWidth(), spr.getSheat().getTileHeight());			
 		}else{
-			drawSpriteStr(spr, pos, spr.getTexture().getImageWidth(), spr.getTexture().getImageHeight());	
+			drawSpriteStr(spr, pos, spr.getTexture().getWidth(), spr.getTexture().getHeight());	
 		}
 		
 	}

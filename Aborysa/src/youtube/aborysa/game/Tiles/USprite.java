@@ -1,6 +1,6 @@
 package youtube.aborysa.game.Tiles;
 
-import org.newdawn.slick.opengl.Texture;
+import youtube.aborysa.game.Render.Texture.Texture;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Math.geometrics.Vector2f;
@@ -25,11 +25,11 @@ public class USprite implements Cloneable{
 		int temp_W = 0;
 		int temp_H = 0;
 		for(int i = 0; i<textures.length;i++){
-			if (textures[i].getImageWidth() > temp_W){
-				temp_W = textures[i].getImageWidth();
+			if (textures[i].getWidth() > temp_W){
+				temp_W = textures[i].getWidth();
 			}
-			if(textures[i].getImageHeight() > temp_H){
-				temp_H = textures[i].getImageHeight();
+			if(textures[i].getHeight() > temp_H){
+				temp_H = textures[i].getHeight();
 			}
 		}
 		sheat = new USpriteSheat(textures,temp_W,temp_H);

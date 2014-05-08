@@ -1,6 +1,6 @@
 package youtube.aborysa.game.Render;
 
-import org.newdawn.slick.opengl.Texture;
+import youtube.aborysa.game.Render.Texture.Texture;
 import youtube.aborysa.game.Math.geometrics.*;
 
 

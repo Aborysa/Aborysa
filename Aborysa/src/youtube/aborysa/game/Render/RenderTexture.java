@@ -2,7 +2,7 @@ package youtube.aborysa.game.Render;
 
 import java.awt.geom.Dimension2D;
 
-import org.newdawn.slick.opengl.Texture;
+import youtube.aborysa.game.Render.Texture.*;
 
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Math.geometrics.Vector2f;
@@ -17,7 +17,7 @@ public class RenderTexture implements Graphics{
 	BlendMode b;
 	public RenderTexture(Point2f pos,Texture tex){
 		this.tex = tex;
-		dim = new Vector2f((float) tex.getImageWidth(),(float) tex.getImageHeight(), pos);
+		dim = new Vector2f((float) tex.getWidth(),(float) tex.getHeight(), pos);
 	}
 	
 	public RenderTexture(Vector2f dimention,Texture tex){
@@ -33,12 +33,11 @@ public class RenderTexture implements Graphics{
 	public void draw() {
 		if (!killed){
 			Point2f pos = dim.getPos();
-			if (part != null){
-				Point2f partStart = part.getPos();
-				Screen.drawImagePartStr(pos.getX(), pos.getY(), dim.getX(), dim.getY(), partStart.getX() , partStart.getY(), part.getX(), part.getY(), tex);
-			}else{
-				Screen.drawImageStr(pos.getX(), pos.getY(),dim.getX(),dim.getY(), tex);
+			if (part == null){
+				part = new Vector2f(1, 1, new Point2f(0,0,false));
 			}
+			Point2f partStart = part.getPos();
+			Screen.drawImagePartStr(pos.getX(), pos.getY(), dim.getX(), dim.getY(), partStart.getX() , partStart.getY(), part.getX(), part.getY(), tex);
 		}
 	}
 	public Texture getTex(){

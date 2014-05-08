@@ -10,6 +10,7 @@ public class MouseHandler {
 	static Vector2f delta = new Vector2f(0,0,null);
 	static Point2f pos = new Point2f(0,0,false);
 	static ArrayList<MouseListener> listeners = new ArrayList<MouseListener>();
+	
 	public static void init(){
 		if (!Mouse.isCreated()){
 			try {
@@ -43,16 +44,18 @@ public class MouseHandler {
 			delta.set(Mouse.getDX(), Mouse.getDY());
 			boolean next = Mouse.next();
 			float mWheel = Mouse.getDWheel();
-			if(next){
+			while(next){
 				int mCode = Mouse.getEventButton();
 				boolean pressed = Mouse.getEventButtonState();
-
-				for(MouseListener l : listeners){
-					if(pressed)
-						l.mouseClick(pos.getX(), pos.getY(), mCode);
-					else
-						l.mouseRelease(pos.getX(), pos.getY(), mCode);
+				if (mCode != -1){
+					for(MouseListener l : listeners){
+						if(pressed)
+							l.mouseClick(pos.getX(), pos.getY(), mCode);
+						else
+							l.mouseRelease(pos.getX(), pos.getY(), mCode);
+					}
 				}
+			next = Mouse.next();
 			}
 		}
 	}
