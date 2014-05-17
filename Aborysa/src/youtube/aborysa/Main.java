@@ -65,7 +65,7 @@ public class Main implements KeyListener, MouseListener {
 			e.printStackTrace();
 		}
 		System.out.println(absRoot);
-		System.exit(0);
+		//System.exit(0);
 		System.out.println(Root);
 		System.out.println(testRoot);
 		//System.out.println(new File("Aborysa.jar!/img/").getAbsolutePath());
