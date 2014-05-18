@@ -104,6 +104,7 @@ public class Screen{
 				i.kill(); // <------ Kind of pointless for now
 			}			
 			gCompList.clear();
+			Display.sync(60);
 			Display.update();
 	}
 	
@@ -159,26 +160,31 @@ public class Screen{
 		glEnd();
 	}
 	protected static void drawPolyFan(float[][] points) throws ArrayIndexOutOfBoundsException{
-		
+		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_TRIANGLE_FAN);
 		for (int i=0; i < points.length;i++){
 			glVertex2f(points[i][0],points[i][1]);
 		}
 		glEnd();
+		glEnable(GL_TEXTURE_2D);
 	}
 	protected static void drawPolygon(float[][] points) throws ArrayIndexOutOfBoundsException{
+		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_LINE_LOOP);
 		for (int i=0; i < points.length;i++){
 			glVertex2f(points[i][0],points[i][1]);
 		}
 		glEnd();
+		glEnable(GL_TEXTURE_2D);
 	}
 	protected static void drawPolygon(float[] x, float[] y) throws ArrayIndexOutOfBoundsException{
+		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_LINE_LOOP);
 		for (int i=0; i < y.length;i++){
 			glVertex2f(x[i],y[i]);
 		}
 		glEnd();
+		glEnable(GL_TEXTURE_2D);
 	}
 	protected static void draw(Graphics g){
 		gCompList.add(g);

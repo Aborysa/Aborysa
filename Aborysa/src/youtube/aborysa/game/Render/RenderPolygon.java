@@ -11,9 +11,10 @@ public class RenderPolygon implements Graphics{
 	Color c;
 	Polygon p;
 	BlendMode b;
-	public RenderPolygon(Point2f pos, Polygon p){
+	public RenderPolygon(Point2f pos, Polygon p,Color c){
 		this.p = p;
 		this.pos = pos;
+		this.c = c;
 	}
 	@Override
 	public void draw() {
@@ -21,7 +22,7 @@ public class RenderPolygon implements Graphics{
 		for(int i = 0; i< p.getPoints().length;i++){
 			points[i][0] = p.getPoints()[i].getX() + pos.getX();
 			points[i][1] = p.getPoints()[i].getY() + pos.getY();
-			System.out.println("X: " + points[i][0] + ", Y: " + points[i][1] + ", I: " + i);
+			//System.out.println("X: " + points[i][0] + ", Y: " + points[i][1] + ", I: " + i);
 		}
 		points[points.length-1][0] = points[0][0];
 		points[points.length-1][1] = points[0][1];

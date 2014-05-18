@@ -15,6 +15,10 @@ public class Point2f implements Cloneable{
 	public boolean isMultiPoint(){
 		return multiP;
 	}
+	public void setPos(Point2f pos){
+		x = pos.getX();
+		y = pos.getY();
+	}
 	public float getX(){
 		return x;
 	}
@@ -38,10 +42,15 @@ public class Point2f implements Cloneable{
 		return new Vector2f(pos1.getX() - pos2.getX(),pos1.getY() - pos2.getY(),pos3);
 	};
 	public static Vector2f getVector(Point2f pos1, Point2f pos2){
-		return getVector(pos1,pos2,false);
+		return getVector(pos1,pos2,true);
 	};
 	public Vector2f toVector(){
 		return new Vector2f(getX(),getY());
+	}
+	public Point2f addPoint(Point2f pos){
+		float x = this.x + pos.getX();
+		float y = this.y + pos.getY();
+		return new Point2f(x,y);
 	}
 	public Point2f clone(){
 		try {

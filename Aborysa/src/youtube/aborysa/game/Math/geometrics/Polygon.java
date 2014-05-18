@@ -4,6 +4,7 @@ public class Polygon {
 	Point2f[] points;
 	Point2f pos;
 	boolean finalized = false;
+	
 	public Polygon(Point2f[] points, Point2f pos){
 		this.points = points;
 		this.pos = pos;

@@ -1,12 +1,13 @@
 package youtube.aborysa.game.Render;
 
 import java.util.ArrayList;
-import youtube.aborysa.game.Render.Texture.*;
 
+import youtube.aborysa.game.Render.Texture.*;
 import youtube.aborysa.game.Math.geometrics.Point2f;
 import youtube.aborysa.game.Math.geometrics.Polygon;
 import youtube.aborysa.game.Math.geometrics.Triangle;
 import youtube.aborysa.game.Math.geometrics.Vector2f;
+import youtube.aborysa.game.Math.geometrics.polyShape;
 import youtube.aborysa.game.Tiles.SheatSprite;
 import youtube.aborysa.game.Tiles.Sprite;
 import youtube.aborysa.game.Tiles.SpriteSheat;
@@ -47,8 +48,13 @@ public class Drawer {
 	}
 	public static void drawRec(Vector2f dim){
 	} 
+	public static void drawShape(polyShape shape){
+		RenderPolygon g = new RenderPolygon(shape.getPos(),new Polygon(shape.getVertecies(),null),c);
+		setColor(1,0,0,1);
+		draw(g);
+	}
 	public static void drawPolygon(Polygon t){
-		RenderPolygon g = new RenderPolygon(t.getPos(),t);
+		RenderPolygon g = new RenderPolygon(t.getPos(),t,c);
 		draw(g);
 	}
 	public static void setColor(float r, float g, float b, float a){

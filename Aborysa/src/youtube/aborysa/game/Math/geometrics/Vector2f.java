@@ -22,7 +22,7 @@ public class Vector2f implements Cloneable{
 	public Vector2f(float x, float y, float x2, float y2){
 		this(x,y,new Point2f(x2,y2,false));
 	}
-	private void setPos(Point2f pos){
+	public void setPos(Point2f pos){
 		if (pos != null){
 			this.pos = pos;
 			calcLength();
@@ -36,7 +36,11 @@ public class Vector2f implements Cloneable{
 		length = (float) Math.sqrt(Math.pow(x,2) + Math.pow(y, 2));
 	}
 	public void calcAngle(){
-		angle = (float) Math.acos((x)/(getLength()));
+	//	System.out.println("ACOS: " + Math.acos(x)/(getLength()));
+		angle = (float) Math.acos(x/getLength());
+		if (x < 0){
+			angle += Math.PI;
+		}
 	}
 	public float getAngle(){
 		return angle;
@@ -70,12 +74,12 @@ public class Vector2f implements Cloneable{
 	}
 	public static float getScalar(Vector2f vec1 ,Vector2f vec2){
 		float scal = 0;
-		scal = (vec1.getX() * vec2.getX()) + (vec1.getY()*vec2.getY());
+		scal = Math.abs(vec1.getX() * vec2.getX()) + (vec1.getY()*vec2.getY());
 		return scal;
 	}
 	public static float getAngle(Vector2f vec1, Vector2f vec2){
 		float rad = 0;
-		System.out.println(getScalar(vec1,vec2));
+		//System.out.println(getScalar(vec1,vec2));
 		//TODO fix the error, replace the next line
 		rad = (float) Math.acos(getScalar(vec1,vec2)/(vec1.getLength()*vec2.getLength()));
 		return rad;
@@ -84,24 +88,28 @@ public class Vector2f implements Cloneable{
 	public String toString(){
 		return "[" + getX() + "," + getY() + "]";
 	}
-	public static Vector2f getProjection(Vector2f axis, Point2f[] vertecies){
-		Vector2f temp = null;
-		float min = getScalar(axis,vertecies[0].toVector());
+	public static Projection getProjection(Vector2f axis, Point2f[] vertecies,Point2f pos){
+		Projection temp = null;
+		float min = getScalar(axis,vertecies[0].addPoint(pos.clone()).toVector());
 		float max = min;
-				
+	//	int maxI = 0;
+		int minI = 0;
 		for(int i=0; i < vertecies.length;i++){
-			float scale = getScalar(axis, vertecies[i].toVector());
+			float scale = getScalar(axis, vertecies[i].addPoint(pos.clone()).toVector());
 			if (scale > max){
 				max = scale;
+				//maxI = i;
 			}else if(scale < min){
 				min = scale;
+				minI = i;
 			}
+			
 		}
-		temp = new Vector2f(0,0);
+		temp = new Projection(axis, min,max);
 		return temp;
 	}
-	public Vector2f getProjection(Point2f[] vertecies){
-		return getProjection(this,vertecies);
+	public Projection getProjection(Point2f[] vertecies, Point2f pos){
+		return getProjection(this,vertecies, pos);
 	}
 	public Vector2f clone(){
 		Vector2f clone;

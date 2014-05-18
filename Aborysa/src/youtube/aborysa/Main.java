@@ -2,6 +2,7 @@ package youtube.aborysa;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Shape;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -39,7 +40,7 @@ public class Main implements KeyListener, MouseListener {
 	static boolean up = false;
 	static boolean down = false;
 	static boolean right = false;
-	static Point2f pos = new Point2f(0,0,false);
+	static Point2f pos = new Point2f(64,128,false);
 	static Texture tex;
 	static ArrayList<TestProject> pros = new ArrayList<TestProject>();
 	static ArrayList<TestProject> killed = new ArrayList<TestProject>();
@@ -53,6 +54,11 @@ public class Main implements KeyListener, MouseListener {
 	static USprite testSprite2;
 	static USprite testSprite3;
 	static USprite playerSpr;
+	
+	public static polyShape playerShape = new polyShape(new Point2f[]{new Point2f(0,0),new Point2f(32,0),new Point2f(32,32),new Point2f(0,32)}, pos);
+	//public static polyShape obShap =new polyShape(new Point2f[]{new Point2f(0,64),new Point2f(64,128),new Point2f(64,0)}, new Point2f(64,128));
+	public static polyCircle obShap =new polyCircle(32,6, new Point2f(64,128));
+	
 	public Main(){
 		//Pointless constructor so that it is possible to init this shit
 	}
@@ -70,6 +76,9 @@ public class Main implements KeyListener, MouseListener {
 		System.out.println(testRoot);
 		//System.out.println(new File("Aborysa.jar!/img/").getAbsolutePath());
 		//System.exit(0);
+		//System.out.println(Math.acos(-10/13));
+		//System.out.println(Math.cos(Math.acos(-10/13)));
+		//System.exit(0);
 		Point2f[] drawingPoints = new Point2f[]{
 				new Point2f(0,0,false),new Point2f(180,-90,false),new Point2f(300,-35,false),
 				new Point2f(300,-35,false),new Point2f(332,-15,false), new Point2f(180,0,false)		
@@ -80,10 +89,10 @@ public class Main implements KeyListener, MouseListener {
 		Triangle[] tri = ground.getMesh();
 		System.out.println("Size: " + tri.length);
 		for(int i=0; i< tri.length;i++){
-				System.out.println(tri[i].getPoints());
+				//System.out.println(tri[i].getPoints());
 		}
 		Vector2f vecTest = ground.getSurfaceVector(64, -32);
-		System.out.println("X1: " + vecTest.getX() +", Y1:" + vecTest.getY() + ", X2: " + vecTest.getPos().getX() + ", Y2:" + vecTest.getPos().getY());
+	//	System.out.println("X1: " + vecTest.getX() +", Y1:" + vecTest.getY() + ", X2: " + vecTest.getPos().getX() + ", Y2:" + vecTest.getPos().getY());
 		
 		//System.exit(0);
 		System.setProperty("org.lwjgl.librarypath",new File("./natives").getAbsolutePath());
@@ -124,14 +133,36 @@ public class Main implements KeyListener, MouseListener {
 			
 			KeyHandler.update();
 			MouseHandler.update();
-
+			Vector2f fixVec = polyShape.getCollision(playerShape, obShap);
+			if (fixVec!=null){
+			//	System.out.println("main shape pos: " + obShap.getPos());
+				if (pos.getX() > obShap.getPos().getX()){
+					pos.setPos(pos.addPoint(new Point2f(-fixVec.getX()/2,0)));
+					obShap.setPos(obShap.getPos().addPoint(new Point2f(fixVec.getX()/2,0)));		
+				}else{
+					pos.setPos(pos.addPoint(new Point2f(fixVec.getX()/2,0)));
+					obShap.setPos(obShap.getPos().addPoint(new Point2f(-fixVec.getX()/2,0)));					
+				}
+				if (pos.getY() > obShap.getPos().getY()){
+					pos.setPos(pos.addPoint(new Point2f(0,-fixVec.getY()/2)));
+					obShap.setPos(obShap.getPos().addPoint(new Point2f(0,fixVec.getY()/2)));
+				}else{
+					pos.setPos(pos.addPoint(new Point2f(0,fixVec.getY()/2)));
+					obShap.setPos(obShap.getPos().addPoint(new Point2f(0,-fixVec.getY()/2)));
+				}
+				Drawer.setColor(0f,1f,0f,1f);
+				
+				Drawer.drawPolygon(new Polygon(new Point2f[]{new Point2f(0,0),new Point2f(fixVec.getX()*2,fixVec.getY()*2),new Point2f(fixVec.getX()*2 + 12,fixVec.getY()*2),new Point2f(12,0)  }, pos.addPoint(new Point2f(16,16))));
+				
+				
+			}
 			//Screen.setColor(1f, 1f, 1f);
 		//	Screen.setCanvas(test);
 			Drawer.drawSprite(playerSpr,new Point2f(64,32,false));
 			Drawer.drawSprite(playerSpr,new Point2f(96,32,false));
 			Drawer.drawSprite(playerSpr,new Point2f(128,32,false));
 			Drawer.setColor(1f,0,0,1f);
-			Drawer.drawFillRec(new Vector2f(32,32, new Point2f(100,100,false)));
+			//Drawer.drawFillRec(new Vector2f(32,32, new Point2f(100,100,false)));
 			Drawer.setColor(1f,1f,1f,1f);
 		//	Screen.drawImgStr(100, 100,32,32, t);
 		//	Screen.drawImgStr(164, 100,32,32, t2);
@@ -161,10 +192,11 @@ public class Main implements KeyListener, MouseListener {
 			Drawer.setColor(1f,1f,1f,0.9f);
 			Drawer.setColor(1f,0,0,1f);
 			Drawer.setBlendMode(BlendMode.BLEND_ONE);
-			Drawer.drawFillRec(new Vector2f(64,64,pos));
-			for(int i=0; i< tri.length;i++){
-				Drawer.drawPolygon(tri[i]);
-			}
+			//Drawer.drawFillRec(new Vector2f(64,64,pos));
+			Drawer.drawShape(obShap);
+			//for(int i=0; i< tri.length;i++){
+			//	Drawer.drawPolygon(tri[i]);
+			//}
 			Drawer.setBlendMode(BlendMode.BLEND_ALPHA);
 			Drawer.setColor(1f,1f,1f,1f);
 			Drawer.drawSprite(playerSpr,pos);
@@ -193,7 +225,7 @@ public class Main implements KeyListener, MouseListener {
 			//Screen.drawImagePart(228+64, 100,0,0,64,64, p3);
 			Screen.run();
 			counter.tick();
-			System.out.println("FPS: " + counter.getFPS());
+		//	System.out.println("FPS: " + counter.getFPS());
 		}
 		System.out.println("Terminating");
 		MouseHandler.dispose();
@@ -257,7 +289,9 @@ public class Main implements KeyListener, MouseListener {
 		float yV = (float) (dy/Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2))+(Math.random()-0.5));
 		//System.out.println(xV);
 		//System.out.println(yV);
-		pros.add(new TestProject(new Vector2f(xV*6,yV*6, pos.clone()), Main.playerSpr));
+		Point2f tempPos = pos.clone();
+		pros.add(new TestProject(new Vector2f(xV*6,yV*6,tempPos), Main.playerSpr));
+		
 	}
 	@Override
 	public void mouseRelease(float x, float y, int code) {

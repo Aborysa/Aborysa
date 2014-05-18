@@ -38,7 +38,7 @@ public class TestGround {
 		Point2f[] surfacePoints = surface.getPoints();
 		for(int i=0; i<surfacePoints.length;i++){
 			temp = new Vector2f(surfacePoints[i].getX() - (x-pos.getX()) ,surfacePoints[i].getY() - (y-pos.getY()), surfacePoints[i]);
-			System.out.println(temp.getLength());
+			//System.out.println(temp.getLength());
 			if (temp.getLength() < dist1){
 				dist2 = dist1;
 				dist1 = temp.getLength();
