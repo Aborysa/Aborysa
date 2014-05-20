@@ -30,17 +30,21 @@ public class Projection {
 		Vector2f dv1 = p1.getDV();
 		float diff = 0;
 		if(!(max2 < min1 || min2 > max1)){
-			/*	if(min1 > min2 || max1 < max2){  //One projectin contained in the other projecction
+			/*	if(min1 > min2 || max1 < max2){  
 				 	
-			}else if(min2 > min1 || max2 < max1){ //Same things
+			}else if(min2 > min1 || max2 < max1){ 
 				
 			}else*/ 
 			if(Math.abs(min1 - max2) < Math.abs(min2 - max1) ){
-				diff = min1 - max2;
+				diff = (min1 - max2);
 			}else{
-				diff = min2 - max1;
+				diff = (min2 - max1);
 			}
-			projectionVector = new Vector2f((float)Math.cos(dv1.getAngle())*diff , (float)Math.sin(dv1.getAngle())*diff );
+			Vector2f dv3 = dv1.clone();
+		//	dv3.set(dv1.getX()*diff, dv1.getY()*diff);
+			projectionVector = new Vector2f(dv1.getX() * diff , dv1.getY() * diff );
+			
+			//	projectionVector = new Vector2f((float)Math.cos(dv1.getAngle())*diff , (float)Math.sin(dv1.getAngle())*diff );
 			System.out.println(projectionVector);
 		}
 		return projectionVector;

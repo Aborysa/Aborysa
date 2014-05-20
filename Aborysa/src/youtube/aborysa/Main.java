@@ -40,7 +40,7 @@ public class Main implements KeyListener, MouseListener {
 	static boolean up = false;
 	static boolean down = false;
 	static boolean right = false;
-	static Point2f pos = new Point2f(64,128,false);
+	static Point2f pos = new Point2f(0,0,false);
 	static Texture tex;
 	static ArrayList<TestProject> pros = new ArrayList<TestProject>();
 	static ArrayList<TestProject> killed = new ArrayList<TestProject>();
@@ -55,9 +55,9 @@ public class Main implements KeyListener, MouseListener {
 	static USprite testSprite3;
 	static USprite playerSpr;
 	
-	public static polyShape playerShape = new polyShape(new Point2f[]{new Point2f(0,0),new Point2f(32,0),new Point2f(32,32),new Point2f(0,32)}, pos);
+	public static polyShape playerShape = new polyShape(new Point2f[]{new Point2f(0,32),new Point2f(32,32),new Point2f(32,0),new Point2f(0,0)}, pos);
 	//public static polyShape obShap =new polyShape(new Point2f[]{new Point2f(0,64),new Point2f(64,128),new Point2f(64,0)}, new Point2f(64,128));
-	public static polyCircle obShap =new polyCircle(32,6, new Point2f(64,128));
+	public static polyCircle obShap =new polyCircle(64,24, new Point2f(64,128));
 	
 	public Main(){
 		//Pointless constructor so that it is possible to init this shit
@@ -78,7 +78,7 @@ public class Main implements KeyListener, MouseListener {
 		//System.exit(0);
 		//System.out.println(Math.acos(-10/13));
 		//System.out.println(Math.cos(Math.acos(-10/13)));
-		//System.exit(0);
+	//	System.exit(0);
 		Point2f[] drawingPoints = new Point2f[]{
 				new Point2f(0,0,false),new Point2f(180,-90,false),new Point2f(300,-35,false),
 				new Point2f(300,-35,false),new Point2f(332,-15,false), new Point2f(180,0,false)		
@@ -135,7 +135,7 @@ public class Main implements KeyListener, MouseListener {
 			MouseHandler.update();
 			Vector2f fixVec = polyShape.getCollision(playerShape, obShap);
 			if (fixVec!=null){
-			//	System.out.println("main shape pos: " + obShap.getPos());
+				System.out.println("main shape pos: " + obShap.getPos());
 				if (pos.getX() > obShap.getPos().getX()){
 					pos.setPos(pos.addPoint(new Point2f(-fixVec.getX()/2,0)));
 					obShap.setPos(obShap.getPos().addPoint(new Point2f(fixVec.getX()/2,0)));		
@@ -150,9 +150,12 @@ public class Main implements KeyListener, MouseListener {
 					pos.setPos(pos.addPoint(new Point2f(0,fixVec.getY()/2)));
 					obShap.setPos(obShap.getPos().addPoint(new Point2f(0,-fixVec.getY()/2)));
 				}
+			
+			//	pos.setPos(pos.addPoint(new Point2f(fixVec.getX()/2,fixVec.getY()/2)));
+			//	obShap.setPos(obShap.getPos().addPoint(new Point2f(-fixVec.getX()/2,-fixVec.getY()/2)));		
 				Drawer.setColor(0f,1f,0f,1f);
 				
-				Drawer.drawPolygon(new Polygon(new Point2f[]{new Point2f(0,0),new Point2f(fixVec.getX()*2,fixVec.getY()*2),new Point2f(fixVec.getX()*2 + 12,fixVec.getY()*2),new Point2f(12,0)  }, pos.addPoint(new Point2f(16,16))));
+				Drawer.drawPolygon(new Polygon(new Point2f[]{new Point2f(0,0),new Point2f(fixVec.getX()*10,fixVec.getY()*10),new Point2f(fixVec.getX()*10 + 12,fixVec.getY()*10),new Point2f(12,0)  }, pos.addPoint(new Point2f(16,16))));
 				
 				
 			}

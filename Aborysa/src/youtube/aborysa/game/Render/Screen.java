@@ -34,6 +34,7 @@ public class Screen{
 	public static boolean isRunning = false;
 	private static float[][] arrayTest = {{0,0},{1,0},{1f,1f},{0,0},{1,1},{0,1}};
 	private static float[][] arrayTest2 = {{0,0},{90,0},{180,180},{0,0},{180,180},{0,180*1.5f}};
+	
 	private static FrameBuffer FrameTest;
 	private static FrameBuffer FrameTest2;
 	private static youtube.aborysa.game.Render.Texture.Texture texTest;
