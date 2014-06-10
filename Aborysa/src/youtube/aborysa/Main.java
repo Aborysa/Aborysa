@@ -54,10 +54,11 @@ public class Main implements KeyListener, MouseListener {
 	static USprite testSprite2;
 	static USprite testSprite3;
 	static USprite playerSpr;
-	
-	public static polyShape playerShape = new polyShape(new Point2f[]{new Point2f(0,32),new Point2f(32,32),new Point2f(32,0),new Point2f(0,0)}, pos);
-	//public static polyShape obShap =new polyShape(new Point2f[]{new Point2f(0,64),new Point2f(64,128),new Point2f(64,0)}, new Point2f(64,128));
-	public static polyCircle obShap =new polyCircle(64,24, new Point2f(64,128));
+
+	public static polyShape playerShape = new polyCircle(32,4, pos);
+//	public static polyShape playerShape = new polyShape(new Point2f[]{new Point2f(0,32),new Point2f(32,32),new Point2f(32,0),new Point2f(0,0)}, pos);
+//	public static polyShape obShap =new polyShape(new Point2f[]{new Point2f(0,128),new Point2f(64,128),new Point2f(64,32)}, new Point2f(64,128));
+	public static polyCircle obShap =new polyCircle(64,6, new Point2f(128,128));
 	
 	public Main(){
 		//Pointless constructor so that it is possible to init this shit
@@ -65,6 +66,13 @@ public class Main implements KeyListener, MouseListener {
 	
 
 	public static void main(String[] args) {
+	
+		Vector2f[] normals = obShap.getNormals(true);
+		for(int i=0; i < normals.length;i++){
+			System.out.println(normals[i]);
+		}
+		//System.exit(0);
+		
 		try {
 			absRoot = new File(Root + "../").getCanonicalPath();
 		} catch (Exception e) {
@@ -133,31 +141,12 @@ public class Main implements KeyListener, MouseListener {
 			
 			KeyHandler.update();
 			MouseHandler.update();
-			Vector2f fixVec = polyShape.getCollision(playerShape, obShap);
+			Vector2f fixVec = polyShape.getCollision(playerShape,obShap);
 			if (fixVec!=null){
-				System.out.println("main shape pos: " + obShap.getPos());
-				if (pos.getX() > obShap.getPos().getX()){
-					pos.setPos(pos.addPoint(new Point2f(-fixVec.getX()/2,0)));
-					obShap.setPos(obShap.getPos().addPoint(new Point2f(fixVec.getX()/2,0)));		
-				}else{
-					pos.setPos(pos.addPoint(new Point2f(fixVec.getX()/2,0)));
-					obShap.setPos(obShap.getPos().addPoint(new Point2f(-fixVec.getX()/2,0)));					
-				}
-				if (pos.getY() > obShap.getPos().getY()){
-					pos.setPos(pos.addPoint(new Point2f(0,-fixVec.getY()/2)));
-					obShap.setPos(obShap.getPos().addPoint(new Point2f(0,fixVec.getY()/2)));
-				}else{
-					pos.setPos(pos.addPoint(new Point2f(0,fixVec.getY()/2)));
-					obShap.setPos(obShap.getPos().addPoint(new Point2f(0,-fixVec.getY()/2)));
-				}
-			
-			//	pos.setPos(pos.addPoint(new Point2f(fixVec.getX()/2,fixVec.getY()/2)));
-			//	obShap.setPos(obShap.getPos().addPoint(new Point2f(-fixVec.getX()/2,-fixVec.getY()/2)));		
+				pos.setPos(playerShape.getPos().addPoint(new Point2f(fixVec.getX()/2,fixVec.getY()/2)));
+				obShap.setPos(obShap.getPos().addPoint(new Point2f(-fixVec.getX()/2,-fixVec.getY()/2)));		
 				Drawer.setColor(0f,1f,0f,1f);
-				
-				Drawer.drawPolygon(new Polygon(new Point2f[]{new Point2f(0,0),new Point2f(fixVec.getX()*10,fixVec.getY()*10),new Point2f(fixVec.getX()*10 + 12,fixVec.getY()*10),new Point2f(12,0)  }, pos.addPoint(new Point2f(16,16))));
-				
-				
+				Drawer.drawPolygon(new Polygon(new Point2f[]{new Point2f(0,0),new Point2f(fixVec.getX()*15,fixVec.getY()*15),new Point2f(fixVec.getX()*10 + 12,fixVec.getY()*10),new Point2f(12,0)  }, pos.addPoint(new Point2f(16,16))));
 			}
 			//Screen.setColor(1f, 1f, 1f);
 		//	Screen.setCanvas(test);
@@ -203,6 +192,8 @@ public class Main implements KeyListener, MouseListener {
 			Drawer.setBlendMode(BlendMode.BLEND_ALPHA);
 			Drawer.setColor(1f,1f,1f,1f);
 			Drawer.drawSprite(playerSpr,pos);
+			Drawer.setColor(1, 0, 0, 1);
+			Drawer.drawShape(playerShape);
 			for(TestProject i : killed){
 				pros.remove(i);
 				killCount++;

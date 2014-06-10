@@ -38,9 +38,10 @@ public class Vector2f implements Cloneable{
 	public void calcAngle(){
 	//	System.out.println("ACOS: " + Math.acos(x)/(getLength()));
 		angle = (float) Math.asin(y/getLength());
-		if (y < 0){
+	/*	if (y < 0){
 			angle *= -1;
-		}
+		}*/
+		angle *= y/Math.abs(y);
 	}
 	public float getAngle(){
 		return angle;
@@ -105,6 +106,8 @@ public class Vector2f implements Cloneable{
 			}
 			
 		}
+		System.out.println(min);
+		System.out.println(max);
 		temp = new Projection(axis, min,max);
 		return temp;
 	}

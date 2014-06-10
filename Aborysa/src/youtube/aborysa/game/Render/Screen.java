@@ -71,7 +71,7 @@ public class Screen{
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glOrtho(0, WIDTH, HEIGHT, 0, -100, 100);
+		glOrtho(0, WIDTH, HEIGHT+12+15, 0, -1, 1);
 		glDepthFunc(GL_DEPTH_TEST);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -224,10 +224,10 @@ public class Screen{
 	protected static void drawRect(float x, float y, float width, float height){
 		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
-			glVertex2f(x,y);
-			glVertex2f(x+width,y);
-			glVertex2f(x+width,y+height);
-			glVertex2f(x,y+height);
+			glVertex2f(x+x*(12+15)/(WIDTH+HEIGHT),y+y*(54)/(HEIGHT));
+			glVertex2f(x+width+(x+width)*(12+15)/(WIDTH+HEIGHT),y+y*(54)/(HEIGHT));
+			glVertex2f(x+width+(x+width)*(12+15)/(WIDTH+HEIGHT),y+height+(y+height)*(54)/(HEIGHT));
+			glVertex2f(x+(x)*(12+15)/(WIDTH+HEIGHT),y+height+(y+height)*(54)/(HEIGHT));
 		glEnd();
 		glEnable(GL_TEXTURE_2D);
 	}

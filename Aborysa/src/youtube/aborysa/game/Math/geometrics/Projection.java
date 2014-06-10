@@ -29,24 +29,25 @@ public class Projection {
 		float max2 = p2.getMax();
 		Vector2f dv1 = p1.getDV();
 		float diff = 0;
-		if(!(max2 < min1 || min2 > max1)){
-			/*	if(min1 > min2 || max1 < max2){  
-				 	
-			}else if(min2 > min1 || max2 < max1){ 
-				
-			}else*/ 
-			if(Math.abs(min1 - max2) < Math.abs(min2 - max1) ){
-				diff = (min1 - max2);
+		if(!   ((max2 > max1 & min2 > max1) || (max2 < min1 & min2 < max1))){
+
+			/*if(Math.abs( max2  - min1 ) > Math.abs(min2 - max1)){
+				projectionVector = new Vector2f(dv1.getX()*((max2-min1) * (-1)) , dv1.getY() * ((max2-min1) *(-1)));
 			}else{
-				diff = (min2 - max1);
-			}
-			Vector2f dv3 = dv1.clone();
-		//	dv3.set(dv1.getX()*diff, dv1.getY()*diff);
-			projectionVector = new Vector2f(dv1.getX() * diff , dv1.getY() * diff );
+				projectionVector = new Vector2f(dv1.getX()*((max2-min1)) , dv1.getY() * ((max2-min1)));
+			}*/
+			//projectionVector = new Vector2f(dv1.getX()*((max2-min1) * (-1)) , dv1.getY() * ((max2-min1) *(-1)));
 			
-			//	projectionVector = new Vector2f((float)Math.cos(dv1.getAngle())*diff , (float)Math.sin(dv1.getAngle())*diff );
-			System.out.println(projectionVector);
-		}
+		//projectionVector = 	new Vector2f(dv1.getX()*((max2-min1) * (-1)) , dv1.getY() * ((max2-min1) *(-1)));
+		//Vector2f temp = new Vector2f(dv1.getX()*((max2-min1)) , dv1.getY() * ((max2-min1)));
+		/*if(temp.getLength() < projectionVector.getLength())
+			projectionVector = temp;
+		*/
+			projectionVector = new Vector2f((float)Math.cos(dv1.getAngle())*(-max2+min1) , (float)Math.sin(dv1.getAngle())*(-max2+min1) );
+		//	System.out.println(projectionVector);
+		}else{
+			System.out.println("NO CONTAINMENT");
+		} 
 		return projectionVector;
 	}
 }

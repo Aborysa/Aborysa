@@ -3,6 +3,7 @@ package youtube.aborysa.game.Math.geometrics;
 public class polyShape {
 	Point2f[] vertecies; 
 	Point2f pos;
+	
 	public polyShape(Point2f[] vertecies, Point2f pos){
 		this.vertecies = vertecies;
 		this.pos = pos;
@@ -34,12 +35,26 @@ public class polyShape {
 		}
 		return temp;
 	}
+	public Point2f getCenter(){
+		int x = 0;
+		int y = 0;
+		Point2f center = null;
+		for(int i=0; i< vertecies.length;i++){
+			x += vertecies[i].getX();
+			y += vertecies[i].getY();
+		}
+		center = new Point2f(x/vertecies.length, y/vertecies.length); 
+		return center;
+	}
 	public static Vector2f getCollision(polyShape shape1, polyShape shape2){
 		Vector2f rsVec = null;
 		boolean overlapping = true;
 		Vector2f[] axis = shape1.getNormals(true);
 		Vector2f[] axis2 = shape2.getNormals(true);
+		Point2f center_1 = shape1.getCenter().addPoint(shape1.getPos());
+		Point2f center_2 = shape2.getCenter().addPoint(shape2.getPos());
 		//Might need to change the code
+		
 
 		Vector2f[] rsVecList = new Vector2f[axis.length+axis2.length];
 		
@@ -54,20 +69,20 @@ public class polyShape {
 				rsVec = null;
 				break;
 			}else{
-				if(rsVec == null || rsVec.getLength() >= oVec.getLength())
+				if(rsVec == null || rsVec.getLength() > oVec.getLength())
 					rsVec = oVec;
 				rsVecList[i] = oVec; //might be usefull
-				//rsVec.set(rsVec.getX() + oVec.getX(), rsVec.getY() + oVec.getY());//  rsVec + oVec;
+		
 			}
 		}
 		for(int i=0; i<axis2.length;i++){
-			if(!overlapping){
-				break;
-			}
+			//if(!overlapping){
+			//	break;
+			//}
 			Projection p1 = Vector2f.getProjection(axis2[i], shape1.getVertecies(),shape1.getPos());
 			Projection p2 = Vector2f.getProjection(axis2[i], shape2.getVertecies(), shape2.getPos());
 		
-			Vector2f oVec = p1.getOverlap(p2);
+			Vector2f oVec = p2.getOverlap(p1);
 			//Checking overlapping
 			if(oVec == null){
 				System.out.println("NULL");
@@ -75,16 +90,22 @@ public class polyShape {
 				rsVec = null;
 				break;
 			}else{
-				if(rsVec == null || rsVec.getLength() >= oVec.getLength())
+				if(rsVec == null || rsVec.getLength() > oVec.getLength())
 					rsVec = oVec;
 				rsVecList[i] = oVec; //might be usefull
-				//rsVec.set(rsVec.getX() + oVec.getX(), rsVec.getY() + oVec.getY());//  rsVec + oVec;
 			}
+						
 		}
-		if(rsVec !=null){
-			System.out.println("LENGTH FFS: " + rsVec.getLength());
-			System.out.println("LENGTH FFS: " + rsVec);
-		//	System.exit(0);
+		if (rsVec != null){
+			int x_M = 1;
+			int y_M = 1;
+			if (center_1.x > center_2.x){
+				x_M *= -1;
+			}
+			if(center_1.y > center_2.y){
+				y_M *= -1;
+			}
+			rsVec.set(rsVec.getX() * x_M, rsVec.getY() * y_M);
 		}
 		return rsVec;
 	}
