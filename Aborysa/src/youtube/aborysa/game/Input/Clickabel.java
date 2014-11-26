@@ -5,5 +5,5 @@ public interface Clickabel {
 	void mouseEnter();
 	void mouseClick(int code);
 	void mouseRelease(int code);
-	void mouseLeav();
+	void mouseLeave();
 }
